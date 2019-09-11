@@ -1,0 +1,69 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : MemberCertificationMapper.xml
+    @author      : 홍준성
+    @description : 회원 본인인증 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-04-23
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "MemberCertificationMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "memberCertification" type = "project.spring.travel.model.MemberCertification">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="member_certificationId" column="member_certificationId"/>
+        <result property="certificationNum" column="certificationNum"/>
+        <result property="email" column="email"/>
+        <result property="regDate" column="regDate"/>
+        <result property="editDate" column="editDate"/>
+    </resultMap>
+
+    <!-- ===== 회원 본인인증 정보 업데이트 ===== -->
+    <update id = "updateMemberCertificationByemail"
+        parameterType = "project.spring.travel.model.MemberCertification">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update member_certification 
+        Set 
+            certificationNum = #{certificationNum}, 
+            email = #{email}, 
+            editDate = now() 
+        Where email = #{email}
+    </update>
+    
+    <!-- ===== 회원 본인인증 정보 저장 ===== -->
+    <insert id = "insertMemberCertification"
+            parameterType = "project.spring.travel.model.MemberCertification"
+            useGeneratedKeys = "true"
+            keyProperty = "member_certificationId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Insert Into member_certification (
+            certificationNum, email, regDate
+        ) Values (
+            #{certificationNum}, #{email}, now()
+        )
+    </insert>
+    
+    <!-- ===== 회원 본인인증 정보 조회 ===== -->
+    <select id = "selectMemberCertification"
+            parameterType = "project.spring.travel.model.MemberCertification"
+            resultType = "int">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            Count(member_certificationId) 
+        From member_certification 
+        Where email = #{email} And certificationNum = #{certificationNum}
+    </select>
+    
+    <!-- ===== 회원 본인인증 정보 삭제 ===== -->
+    <delete id = "deleteMemberCertification"
+            parameterType = "project.spring.travel.model.MemberCertification">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Delete From member_certification Where email = #{email} And certificationNum = #{certificationNum}
+    </delete>
+    
+</mapper>

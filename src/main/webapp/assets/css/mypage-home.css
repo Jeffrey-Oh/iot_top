@@ -1,0 +1,135 @@
+@charset "EUC-KR";
+
+/*====== visual ======*/
+#visual {
+    height: 400px;
+}
+
+#visual .bg {
+    height: 400px;
+    background-image: url(../../images/main/bg.jpg);
+    background-position: center center;
+}
+
+.box {
+    min-height: 350px;
+    border: 3px solid #eee;
+    padding: 20px;
+}
+
+.jjim_header {
+	margin-bottom: 20px;
+}
+
+button {
+    font-weight: none;
+    font-size: 12px;
+}
+
+.user_simple_info {
+    line-height: 45px;
+}
+
+.info {
+
+    height: 45px;
+}
+
+.btn_update {
+	min-width: 400px;
+	max-width: 440px;
+}
+
+.owl-dots {
+   text-align: center;
+   margin-top: 50px;
+}
+
+.owl-dot {
+   width: 12px;
+   height: 12px;
+   background-color: #d5d5d5 !important;
+   border-radius: 10px;
+   margin: 10px;
+}
+
+.owl-dot.active {
+   width: 16px;
+   height: 16px;
+   background-color: lightcoral !important;
+   border-radius: 10px;
+   position: relative;
+   top: 2px;
+}
+
+.item {
+	height: 300px;
+}
+
+.slideImg {
+	width: 265px !important;
+    height: 317px !important;
+    margin: auto;
+}
+
+.myBoard {
+	width: 100%;
+}
+
+.boardRegDate {
+	
+	text-overflow: ellipsis;
+}
+
+.boardTitle {
+	padding-left: 10px;
+	width: 60%;
+	text-overflow: ellipsis;
+}
+
+.boardId {
+	
+	text-overflow: ellipsis;
+	
+}
+
+.boardCount {
+	padding-left: 0;
+	text-overflow: ellipsis;
+	text-align: right;
+}
+
+.BBSNum {
+	padding: 3px;	
+}
+
+.BBSRegDate {
+	
+}
+
+.BBSTitle {
+	display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 320px;
+}
+
+#myBoard, #myQna {
+	margin-top: 15px;
+}
+
+
+
+
+
+
+a:link { color: black; text-decoration: none;}
+a:visited { color: black; text-decoration: none;}
+a:hover { color: black; text-decoration: none;}
+.more { font-size: 15px;}
+
+
+
+
+

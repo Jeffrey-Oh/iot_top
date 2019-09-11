@@ -1,0 +1,52 @@
+/*====== header ======*/
+/* util */
+.head_top {
+    background-color: rgba(0,0,0,0.4);
+}
+/* gnb */
+#gnb {
+    background-color: rgba(0,0,0,0.4);
+}
+#gnb .subnav {
+    background-color: rgba(0,0,0,0.5);
+    border-color: rgba(0,0,0,0.1);
+}
+/* Headroom style */
+#gnb.headroom--not-top.slideOutUp,
+#gnb.slideInDown.headroom--top {
+    background-color: rgba(0,0,0,0.4);
+}
+#gnb.slideInDown.headroom--top .subnav {
+    background-color: rgba(0,0,0,0.5);
+    border-color: rgba(0,0,0,0.1);
+}
+
+/*====== visual ======*/
+#visual {
+    height: 400px;
+}
+#visual .bg {
+    height: 400px;
+    background-position: center center;
+}
+
+/*====== contents ======*/
+#searchbar + #contents {
+    padding-top: 70px;
+}
+#contents > .container {
+    padding-bottom: 100px;
+}
+#contents > .container-fluid {
+    padding-bottom: 100px;
+}
+/* page header */
+.page-header {
+    margin: 0 0 40px;
+    padding: 60px 30px;
+    border-color: #d9d9d9;
+}
+.page-header h3 {
+    font-size: 30px;
+    font-weight: bold;
+}

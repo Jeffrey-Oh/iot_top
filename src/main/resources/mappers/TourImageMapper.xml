@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TourImageMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="TourImg" type="project.spring.travel.model.BoardList">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="boardId" column="boardId" />
+		<result property="category" column="category" />
+		<result property="korCtg" column="korCtg" />
+		<result property="title" column="title" />
+		<result property="userName" column="userName" />
+		<result property="content" column="content" />
+		<result property="boardCount" column="boardCount" />
+		<result property="boardLike" column="boardLike" />
+		<result property="regDate" column="regDate" />
+		<result property="editDate" column="editDate" />
+		<result property="memberId" column="memberId" />
+		<result property="noticeChk" column="noticeChk" />
+	</resultMap>
+
+	<!-- 투어 이미지 메인 리스트 -->
+	<select id="getTourImageList" parameterType="project.spring.travel.model.BoardList" resultMap="TourImg">
+		SELECT boardId, category, korCtg, title, userName, content, boardCount, boardLike, substring(regDate, 1, 10) `regDate`, substring(editDate, 1, 10) `editDate`, memberId
+		<if test="gallery == true">
+			,( SELECT concat(file_dir,'/',file_name) FROM file
+			AND content_type LIKE ('image/%')
+			ORDER BY id ASC LIMIT 0, 1
+			) as image_path
+		</if>
+		FROM board_list WHERE category='tour'
+	</select>
+
+</mapper>

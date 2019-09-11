@@ -1,0 +1,88 @@
+/*====== visual ======*/
+#visual {
+	height: 400px;
+}
+
+#visual .bg {
+	height: 400px;
+	background-image: url(../../images/culture/imgCulture.jpg);
+	background-position: center center;
+}
+
+.btn-favorite, .btn-like {
+    background-color: white;
+    outline: none !important;
+}
+
+.btn-box {
+	margin-bottom: 100px;
+}
+
+.color2 {
+    color:#ff857c !important;
+}
+
+.thumbnail a:link {
+	color: #999;
+	text-decoration: none;
+}
+
+.thumbnail a:visited {
+	color: #999;
+	text-decoration: none;
+}
+
+.thumbnail a:hover {
+	color: white;
+	text-decoration: underline;
+}
+
+#datepicker {
+	padding-top: 16.5px;
+	padding-bottom: 16.5px;
+	color: #999;
+}
+
+.thumbnail {
+	position: relative;
+}
+
+.btn-box {
+	position: absolute;
+	top: 290px;
+	left: 460px;
+}
+
+.thumbnail-box {
+	height:320px !important; 
+	margin-right: 20px !important;
+	max-width:200px !important; 
+}
+
+.LabelA {
+	margin-top: 18px; 
+	color:#e5e5e5; 
+	margin-left: 20px; 
+	height: 100%
+}
+
+.selectListA {
+	margin-top: 14px;
+    min-width: 100px;
+    margin-left: 5px;
+    padding: 2px;
+}
+
+.LabelB {
+	margin-top: 5px; 
+	color:#e5e5e5; 
+	margin-left: 20px; 
+	height: 100%
+}
+
+.selectListB {
+	margin-top: 0px;
+    min-width: 100px;
+    margin-left: 5px;
+    padding: 2px;
+}

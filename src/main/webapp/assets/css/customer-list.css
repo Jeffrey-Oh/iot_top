@@ -1,0 +1,26 @@
+#visual .bg {
+	background-image: url(../../images/customer/customer.jpg);
+	height: 400px !important;
+}
+
+.mail-list {
+	min-height: 400px;
+	margin-top: 40px;
+	font-size: 14px;
+}
+
+.mail-list a:link, .mail-list a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+.section_title {
+	display: inline-block;
+}
+
+.write-item {
+	display: inline-block;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}

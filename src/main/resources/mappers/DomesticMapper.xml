@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DomesticMapper">
+
+	<resultMap id="domestic" type="project.spring.travel.model.Domestic">
+		<result property="airlineKorean" column="airlineKorean" />
+		<result property="domesticNum" column="domesticNum" />
+		<result property="startCity" column="startCity" />
+		<result property="startCityCode" column="startCityCode" />
+		<result property="arrivalCity" column="arrivalCity" />
+		<result property="arrivalCityCode" column="arrivalCityCode" />
+		<result property="domesticStartTime" column="std" />
+		<result property="domesticArrivalTime" column="etd" />
+		<result property="domesticStdate" column="domesticStdate" />
+		<result property="domesticEddate" column="domesticEddate" />
+		<result property="domesticMon" column="domesticMon" />
+		<result property="domesticTue" column="domesticTue" />
+		<result property="domesticWed" column="domesticWed" />
+		<result property="domesticThu" column="domesticThu" />
+		<result property="domesticFri" column="domesticFri" />
+		<result property="domesticSat" column="domesticSat" />
+		<result property="domesticSun" column="domesticSun" />
+		<result property="logo" column="logo" />
+		<result property="groupId" column="groupId" />
+	</resultMap>
+
+	<!-- 운항스케줄 추가 -->
+	<insert id="addDomestic"
+		parameterType="project.spring.travel.model.Domestic" useGeneratedKeys="true"
+		keyProperty="domesticId">
+		INSERT INTO air_domestic (airlineKorean, domesticNum,
+		startCity,
+		startCityCode, arrivalCity, arrivalCityCode,
+		domesticStartTime,
+		domesticArrivalTime, domesticStdate, domesticEddate,
+		domesticMon,
+		domesticTue, domesticWed, domesticThu, domesticFri,
+		domesticSat,
+		domesticSun, logo<!-- , groupId -->) VALUES (#{airlineKorean}, #{domesticNum},
+		#{startCity},
+		#{startCityCode}, #{arrivalCity}, #{arrivalCityCode},
+		#{domesticStartTime}, #{domesticArrivalTime}, #{domesticStdate},
+		#{domesticEddate}, #{domesticMon}, #{domesticTue}, #{domesticWed},
+		#{domesticThu}, #{domesticFri}, #{domesticSat}, #{domesticSun}, #{logo}<!-- , #{groupId} -->)
+	</insert>
+
+	<!-- 운항스케줄 전체 조회 -->
+	<select id="getDomesticList"
+		parameterType="project.spring.travel.model.Domestic" resultMap="domestic">
+		SELECT airlineKorean, domesticNum, startCity, startCityCode, arrivalCity, arrivalCityCode, domesticStartTime `std`, domesticArrivalTime `etd`, domesticStdate, domesticEddate, domesticMon, domesticTue, domesticWed,
+		domesticThu, domesticFri, domesticSat, domesticSun, logo<!-- , groupId -->
+		FROM air_domestic
+		<where>
+			<!-- 그룹화  -->
+			<!-- <if test="groupId > 0">
+				groupId=#{groupId}
+			</if> -->
+			<!-- 운항스케줄 목적지 결과 조회 -->
+			<if test="arrivalCity != null and arrivalCity != ''">
+				AND arrivalCity like concat('%', #{arrivalCity}, '%')
+			</if>
+			<!-- 운항스케줄 항공사 결과 조회 -->
+			<if test="airlineKorean != null and airlineKorean != ''">
+				AND airlineKorean like concat('%', #{airlineKorean}, '%')
+			</if>
+			<!-- 운항스케줄 운항편명 결과 조회 -->
+			<if test="domesticNum != null and domesticNum != ''">
+				AND domesticNum like concat('%', #{domesticNum}, '%')
+			</if>
+		</where>
+		ORDER BY std ASC
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+	
+	<!-- 운항스케줄 전체 개수 -->
+	<select id="getCount" parameterType="project.spring.travel.model.Domestic" resultType="int">
+		SELECT count(*) FROM air_domestic
+		<where>
+			<!-- groupId=#{groupId} -->
+			<!-- 운항스케줄 목적지 전체 개수 -->
+			<if test="arrivalCity != null and arrivalCity != ''">
+				AND arrivalCity like concat('%', #{arrivalCity}, '%')
+			</if>
+			<!-- 운항스케줄 항공사 전체 개수 -->
+			<if test="airlineKorean != null and airlineKorean != ''">
+				AND airlineKorean like concat('%', #{airlineKorean}, '%')
+			</if>
+			<!-- 운항스케줄 운항편명 전체 개수 -->
+			<if test="domesticNum != null and domesticNum != ''">
+				AND domesticNum like concat('%', #{domesticNum}, '%')
+			</if>
+		</where>
+	</select>
+</mapper>

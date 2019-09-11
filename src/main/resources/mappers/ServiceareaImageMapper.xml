@@ -1,0 +1,101 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : ServiceareaImageMapper.xml
+    @author      : 홍준성
+    @description : 휴게소 이미지 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-04-30
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "ServiceareaImageMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "serviceareaImage" type = "project.spring.travel.model.ServiceareaImage">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="servicearea_imageId" column="servicearea_imageId"/>
+        <result property="query" column="query"/>
+        <result property="image_url" column="image_url"/>
+        <result property="thumbnail_url" column="thumbnail_url"/>
+        <result property="width" column="width"/>
+        <result property="height" column="height"/>
+        <result property="regDate" column="regDate"/>
+        <result property="editDate" column="editDate"/>
+    </resultMap>
+
+    <!-- ===== 휴게소 이미지 정보 업데이트 ===== -->
+    <update id = "updateServiceareaImageByQuery"
+            parameterType = "project.spring.travel.model.ServiceareaImage">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update servicearea_image 
+        Set 
+            query = #{query}, 
+            image_url = #{image_url}, 
+            thumbnail_url = #{thumbnail_url}, 
+            width = #{width}, 
+            height = #{height}, 
+            editDate = now() 
+        Where query = #{query}
+    </update>
+    
+    <!-- ===== 휴게소 이미지 정보 저장 ===== -->
+    <insert id = "insertServiceareaImage"
+            parameterType = "project.spring.travel.model.ServiceareaImage"
+            useGeneratedKeys = "true"
+            keyProperty = "servicearea_imageId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Insert Into servicearea_image (
+            query, image_url, thumbnail_url, 
+            width, height, regDate 
+        ) Values (
+            #{query}, #{image_url}, #{thumbnail_url}, 
+            #{width}, #{height}, now() 
+        )
+    </insert>
+    
+    <!-- ===== 휴게소 이미지 정보 조회 ===== -->
+    <select id = "selectServiceareaImage"
+            parameterType = "project.spring.travel.model.ServiceareaImage"
+            resultMap = "serviceareaImage">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_imageId, query, image_url, thumbnail_url, 
+            width, height, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_image 
+        Where servicearea_imageId = #{servicearea_imageId}
+    </select>
+    
+    <!-- ===== 휴게소 이미지 정보 다중 조회 ===== -->
+    <select id = "selectServiceareaImageList"
+            parameterType = "project.spring.travel.model.ServiceareaImage"
+            resultMap = "serviceareaImage">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_imageId, query, image_url, thumbnail_url, 
+            width, height, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_image 
+    </select>
+    
+    <!-- ===== 휴게소 이미지 정보를 질의어로 조회 ===== -->
+    <select id = "selectServiceareaImageByQuery"
+            parameterType = "project.spring.travel.model.ServiceareaImage"
+            resultMap = "serviceareaImage">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_imageId, query, image_url, thumbnail_url, 
+            width, height, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_image 
+        Where query = #{query} 
+        Limit 0, 1
+    </select>
+    
+</mapper>

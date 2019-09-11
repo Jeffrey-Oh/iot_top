@@ -1,0 +1,339 @@
+@charset "utf-8";
+/* CSS Document */
+
+/******************************
+
+[Table of Contents]
+
+1. 1600px
+2. 1440px
+3. 1280px
+4. 1199px
+5. 1024px
+6. 991px
+7. 959px
+8. 880px
+9. 768px
+10. 767px
+11. 539px
+12. 479px
+13. 400px
+
+******************************/
+
+/************
+1. 1800px
+************/
+
+@media only screen and (max-width: 1800px)
+{
+	
+}
+
+/************
+2. 1480px
+************/
+
+@media only screen and (max-width: 1480px)
+{
+}
+
+/************
+3. 1380px
+************/
+
+@media only screen and (max-width: 1380px)
+{
+	
+}
+
+/************
+3. 1280px
+************/
+
+@media only screen and (max-width: 1280px)
+{
+	
+}
+
+/************
+4. 1199px
+************/
+
+@media only screen and (max-width: 1199px)
+{
+	
+}
+
+/************
+4. 1100px
+************/
+
+@media only screen and (max-width: 1100px)
+{
+	
+}
+
+/************
+5. 1024px
+************/
+
+@media only screen and (max-width: 1024px)
+{
+	
+}
+
+/************
+6. 991px
+************/
+
+@media only screen and (max-width: 991px)
+{
+	.head_top .util {
+		padding-right: 20px !important;
+	}
+
+	.navigation {
+		display : block !important;
+	}
+
+	.navigation li:nth-child(1), .navigation li:nth-child(2), .navigation li:nth-child(3), .navigation li:nth-child(4), .navigation li:nth-child(5) {
+		display : none;
+	}
+	.navigation li:nth-child(6) {
+		float : right !important;
+	}
+	
+	.hot_keyword, .weather, .move-text {
+		display : none;
+	}
+	
+	#visual {
+		height: 500px !important;
+	}
+	
+	#visual > .bg {
+		height : 100% !important;
+	}
+	
+	.bg-text {
+		font-size : 40px;
+	}
+	
+	.home_search_container {
+		position: relative;
+		top: auto;
+		width: 100%;
+		left: auto;
+		padding: 0;
+	}
+	
+	.home_search_content {
+		padding : 0;
+	}
+	
+	.search_input {
+		width : 100%;
+		margin-bottom : 20px;
+	}
+	
+	.home_search_button {
+		width : 100%;
+		border-radius : 50px !important;
+	}
+	
+	#contents {
+		padding-top: 300px !important;
+	}
+	
+	.intro > .container {
+		top: 150px;
+	}
+	
+	.intro_container {
+		padding: 100px 30px 70px 30px;
+		border-top: solid 2px #e4e6e8;
+	}
+	
+	.intro_col {
+		margin-bottom : 50px;
+	}
+	
+	.intro_content {
+		padding-left: 14px !important
+	}
+	
+	.list_allmenu > li > a {
+	  font-size: 12px !important;
+	}
+	
+	.list_allmenu .subnav > li > a {
+	  font-size: 10px !important;
+	}
+	
+	#arriDate {
+		margin-left: 0px !important;
+	}
+}
+
+/************
+7. 959px
+************/
+
+@media only screen and (max-width: 959px)
+{
+	
+}
+
+/************
+8. 880px
+************/
+
+@media only screen and (max-width: 880px)
+{
+	
+}
+
+/************
+9. 768px
+************/
+
+@media only screen and (max-width: 768px)
+{
+	
+}
+
+/************
+10. 767px
+************/
+
+@media only screen and (max-width: 767px)
+{
+	.home_search_container
+	{
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.destinations_container
+	{
+		width: 100%;
+		left: auto;
+	}
+	.destination
+	{
+		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	#destinations > .container {
+	    width: 100% !important;
+	    padding-top: 120px;
+	    left: 16px !important;
+	    padding-right: 15px;
+	    padding-left: 15px;
+	    margin-right: auto;
+	    margin-left: auto;
+	}
+	
+	#destinations > .container > div:nth-child(1).row > .col {
+	    position: relative;
+	    left: -16px;
+	}
+	
+	.tech-slideshow {
+		width: 85% !important;
+	}
+	
+	.air-l th, .air-l td {
+		font-size: 12px !important;
+	    padding: 0px !important;
+	}
+	
+	.air-l > table > tbody > tr:nth-child(1) > th:nth-child(3) {
+	    font-size: 16px !important;
+	}
+	
+	.air-s th, .air-s td {
+		font-size: 12px !important;
+	    padding: 0px !important;
+	}
+	
+	.air-s > table > tbody > tr:nth-child(1) > th:nth-child(1) { font-size: 10px !important; }
+	.air-s > table > tbody > tr:nth-child(1) > th:nth-child(3) { font-size: 16px !important; }
+	.air-s > table > tbody > tr:nth-child(3) { height: 40px }
+	.air-s > table > tbody > tr:nth-child(4) { height: 40px }
+	.air-s > table > tbody > tr:nth-child(5) { height: 40px }
+	.air-s > table > tbody > tr:nth-child(6) { height: 40px }
+	.air-s > table > tbody > tr:nth-child(7) { height: 40px }
+	
+	.air-s img {
+		display: none;
+	}
+	
+	.w_check, .h_check {
+		width: 7px !important;
+		height: 7px !important;
+	}
+	
+	.air-more {
+		margin: 50px 90px 0px 90px !important;
+	}
+	
+	.badge {
+		width: 70px !important;
+		font-size: 10px !important;
+	}
+}
+
+/************
+11. 575px
+************/
+
+@media only screen and (max-width: 575px)
+{
+	.section_title h2
+	{
+		font-size: 36px;
+	}
+	
+	.air-l th, .air-l td {
+	    width: 60px !important;
+	}
+}
+
+/************
+11. 539px
+************/
+
+@media only screen and (max-width: 539px)
+{
+	
+}
+
+/************
+12. 480px
+************/
+
+@media only screen and (max-width: 480px)
+{
+	
+}
+
+/************
+13. 479px
+************/
+
+@media only screen and (max-width: 479px)
+{
+	
+}
+
+/************
+14. 400px
+************/
+
+@media only screen and (max-width: 400px)
+{
+	
+}

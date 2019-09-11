@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Oswald:400,500,600,700');
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+    text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+
+ul {
+    list-style: none;
+    margin-bottom: 0px;
+}
+
+p a {
+    display: inline;
+    position: relative;
+    color: inherit;
+    border-bottom: solid 1px #ffa07f;
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
+}
+
+p:last-of-type {
+    margin-bottom: 0;
+}
+
+a,
+a:hover,
+a:visited,
+a:active,
+a:link {
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+    text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+
+p a:active {
+    position: relative;
+    color: #FF6347;
+}
+
+p a:hover {
+    color: #FFFFFF;
+    background: #ffa07f;
+}
+
+p a:hover::after {
+    opacity: 0.2;
+}
+
+h1 {
+    font-size: 72px;
+}
+
+h2 {
+    font-size: 48px;
+}
+
+h3 {
+    font-size: 36px;
+}
+
+h4 {
+    font-size: 24px;
+}
+
+h5 {
+    font-size: 18px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+    text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+
+.destinations {
+    width: 100%;
+    background: #FFFFFF;
+    padding: 80px 0;
+}
+
+.subtitle {
+    padding-bottom: 80px;
+}
+
+.section_subtitle {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #72728c;
+    line-height: 0.75;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+
+.home_search_content {
+    width: 100%;
+    background: #FFFFFF;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-left: 67px;
+}
+
+.home_search_content span {
+    position: absolute;
+    left: 270px;
+    top: 137px;
+    font-size: 20px;
+}
+
+.search_input {
+    height: 50px;
+    background: #f2f5f6;
+    border: none;
+    outline: none;
+    padding-left: 17px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #72728c !important;
+}
+
+.search_input_1 {
+    width: 25%;
+}
+
+.search_input_2 {
+    width: 20%;
+}
+
+.search_input_3 {
+    width: 15%;
+}
+
+.search_input_4 {
+    width: 10%;
+}
+
+.search_input::-webkit-input-placeholder {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #72728c !important;
+}
+
+.search_input:-moz-placeholder {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #72728c !important;
+}
+
+.search_input::-moz-placeholder {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #72728c !important;
+}
+
+.search_input:-ms-input-placeholder {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #72728c !important;
+}
+
+.search_input::input-placeholder {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #72728c !important;
+}
+
+.home_search_button {
+    width: 161px;
+    height: 52px;
+    background: #181818;
+    color: #FFFFFF;
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: uppercase;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.pagination {
+	display: block;
+}
+
+/* 항공사 로고 */
+.logo_BX { background-image: url(../../images/air/logo/BX_logo.png); display: block; width: 130px; height: 40px; background-repeat: no-repeat; }
+.logo_OZ { background-image: url(../../images/air/logo/OZ_logo.png); display: block; width: 130px; height: 40px; background-repeat: no-repeat; }
+.logo_LJ { background-image: url(../../images/air/logo/LJ_logo.png); display: block; width: 130px; height: 40px; background-repeat: no-repeat; }
+.logo_ZE { background-image: url(../../images/air/logo/ZE_logo.png); display: block; width: 130px; height: 40px; background-repeat: no-repeat; }
+.logo_7C { background-image: url(../../images/air/logo/7C_logo.png); display: block; width: 130px; height: 40px; background-repeat: no-repeat; }
+.logo_KE { background-image: url(../../images/air/logo/KE_logo.png); display: block; width: 130px; height: 40px; background-repeat: no-repeat; }
+.logo_TW { background-image: url(../../images/air/logo/TW_logo.png); display: block; width: 130px; height: 40px; background-repeat: no-repeat; }
+.logo_KW { background-image: url(../../images/air/logo/KW_logo.png); display: block; width: 130px; height: 40px; background-repeat: no-repeat; }

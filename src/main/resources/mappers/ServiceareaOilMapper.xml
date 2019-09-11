@@ -1,0 +1,118 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : ServiceareaOilMapper.xml
+    @author      : 홍준성
+    @description : 휴게소 유가정보 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-05-02
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "ServiceareaOilMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "serviceareaOil" type = "project.spring.travel.model.ServiceareaOil">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="servicearea_oilId" column="servicearea_oilId"/>
+        <result property="routeCode" column="routeCode"/>
+        <result property="routeName" column="routeName"/>
+        <result property="direction" column="direction"/>
+        <result property="serviceAreaCode" column="serviceAreaCode"/>
+        <result property="serviceAreaName" column="serviceAreaName"/>
+        <result property="oilCompany" column="oilCompany"/>
+        <result property="telNo" column="telNo"/>
+        <result property="gasolinePrice" column="gasolinePrice"/>
+        <result property="diselPrice" column="diselPrice"/>
+        <result property="lpgYn" column="lpgYn"/>
+        <result property="lpgPrice" column="lpgPrice"/>
+        <result property="regDate" column="regDate"/>
+        <result property="editDate" column="editDate"/>
+    </resultMap>
+
+    <!-- ===== 휴게소 유가정보 업데이트 ===== -->
+    <update id = "updateServiceareaOilByServiceAreaCodeAndTelNo"
+            parameterType = "project.spring.travel.model.ServiceareaOil">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update servicearea_oil 
+        Set 
+            routeCode = #{routeCode}, 
+            routeName = #{routeName}, 
+            direction = #{direction}, 
+            serviceAreaCode = #{serviceAreaCode}, 
+            serviceAreaName = #{serviceAreaName}, 
+            oilCompany = #{oilCompany}, 
+            telNo = #{telNo}, 
+            gasolinePrice = #{gasolinePrice}, 
+            diselPrice = #{diselPrice}, 
+            lpgYn = #{lpgYn}, 
+            lpgPrice = #{lpgPrice}, 
+            editDate = now() 
+        Where serviceAreaCode = #{serviceAreaCode} And telNo = #{telNo}
+    </update>
+    
+    <!-- ===== 휴게소 유가정보 저장 -->
+    <insert id = "insertServiceareaOil"
+            parameterType = "project.spring.travel.model.ServiceareaOil"
+            useGeneratedKeys = "true"
+            keyProperty = "servicearea_oilId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Insert Into servicearea_oil (
+            routeCode, routeName, direction, 
+            serviceAreaCode, serviceAreaName, oilCompany, telNo, 
+            gasolinePrice, diselPrice, lpgYn, lpgPrice, regDate
+        ) Values (
+            #{routeCode}, #{routeName}, #{direction}, 
+            #{serviceAreaCode}, #{serviceAreaName}, #{oilCompany}, #{telNo}, 
+            #{gasolinePrice}, #{diselPrice}, #{lpgYn}, #{lpgPrice}, now() 
+        )
+    </insert>
+    
+    <!-- ===== 휴게소 유가정보 조회 ===== -->
+    <select id = "selectServiceareaOil"
+            parameterType = "project.spring.travel.model.ServiceareaOil"
+            resultMap = "serviceareaOil">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_oilId, routeCode, routeName, direction, 
+            serviceAreaCode, serviceAreaName, oilCompany, telNo, 
+            gasolinePrice, diselPrice, lpgYn, lpgPrice, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_oil 
+        Where servicearea_oilId = #{servicearea_oilId}
+    </select>
+    
+    <!-- ===== 휴게소 유가정보 다중 조회 ===== -->
+    <select id = "selectServiceareaOilList"
+            parameterType = "project.spring.travel.model.ServiceareaOil"
+            resultMap = "serviceareaOil">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_oilId, routeCode, routeName, direction, 
+            serviceAreaCode, serviceAreaName, oilCompany, telNo, 
+            gasolinePrice, diselPrice, lpgYn, lpgPrice, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_oil 
+    </select>
+    
+    <!-- ===== 휴게소 유가정보를 휴게소 이름으로 조회 ===== -->
+    <select id = "selectServiceareaOilByServiceAreaName"
+            parameterType = "project.spring.travel.model.ServiceareaOil"
+            resultMap = "serviceareaOil">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_oilId, routeCode, routeName, direction, 
+            serviceAreaCode, serviceAreaName, oilCompany, telNo, 
+            gasolinePrice, diselPrice, lpgYn, lpgPrice, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_oil 
+        Where serviceAreaName Like Concat('%', #{serviceAreaName}, '%') 
+        Limit 0, 1
+    </select>
+    
+</mapper>

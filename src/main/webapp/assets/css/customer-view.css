@@ -1,0 +1,15 @@
+#visual .bg {
+	background-image: url(../../images/customer/customer.jpg);
+	height: 500px !important;
+}
+
+.view-content {
+	height: 400px;
+    width: 1000px;
+}
+
+.button-group {
+	display: inline-block;
+    position: absolute;
+    right: 50%;
+}

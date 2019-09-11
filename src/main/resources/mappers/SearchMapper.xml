@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SearchMapper">
+
+	<resultMap id="search"
+		type="project.spring.travel.model.AirSearch">
+		<result property="airSearchId" column="airSearchId" />
+		<result property="airlineKorean" column="airlineKorean" />
+		<result property="domesticNum" column="domesticNum" />
+		<result property="startCity" column="startCity" />
+		<result property="startCityCode" column="startCityCode" />
+		<result property="arrivalCity" column="arrivalCity" />
+		<result property="arrivalCityCode" column="arrivalCityCode" />
+		<result property="domesticStartTime" column="domesticStartTime" />
+		<result property="domesticArrivalTime"
+			column="domesticArrivalTime" />
+		<result property="std" column="std" />
+		<result property="etd" column="etd" />
+		<result property="price" column="price" />
+		<result property="logo" column="logo" />
+		<result property="sql" column="sql" />
+	</resultMap>
+	
+	<!-- sql auto_increment 초기화 -->
+	<insert id="sqlReset"
+		parameterType="project.spring.travel.model.AirSearch"
+		useGeneratedKeys="true" keyProperty="hotId">
+		${sql}
+	</insert>
+
+	<!-- 데이터 추가를 위한 임의 코드 -->
+	<insert id="addSql"
+		parameterType="project.spring.travel.model.AirSearch"
+		useGeneratedKeys="true" keyProperty="airSearchId">
+		${sql}
+	</insert>
+
+	<!-- 항공권 편도 조회 -->
+	<select id="selectTicketOneWay"
+		parameterType="project.spring.travel.model.AirSearch"
+		resultMap="search">
+		SELECT airlineKorean, domesticNum, startCity, startCityCode,
+		arrivalCity, arrivalCityCode, domesticStartTime, domesticArrivalTime,
+		substring(std, 1, 10) `std`, substring(etd, 1, 10) `etd`,
+		price, logo
+		FROM air_search
+		<where>
+			<if test="std != null">
+				DATE_FORMAT(std, '%y%c%d') &gt; #{std}
+			</if>
+			<if test="startCity != null">
+				AND startCity like replace(concat('%', #{startCity}, '%'), ' ', '')
+			</if>
+			<if test="arrivalCity != null">
+				AND arrivalCity like replace(concat('%', #{arrivalCity}, '%'), ' ', '')
+			</if>
+		</where>
+		ORDER BY price ASC
+		LIMIT #{limitStart}, #{listCount};
+	</select>
+	
+	<select id="getCountList" parameterType="project.spring.travel.model.AirSearch" resultType="int">
+		SELECT count(*) FROM air_search
+		<where>
+			<if test="std != null">
+				DATE_FORMAT(std, '%y%c%d') &gt; #{std}
+			</if>
+			<if test="startCity != null">
+				AND startCity like replace(concat('%', #{startCity}, '%'), ' ', '')
+			</if>
+			<if test="arrivalCity != null">
+				AND arrivalCity like replace(concat('%', #{arrivalCity}, '%'), ' ', '')
+			</if>
+		</where>
+		ORDER BY price ASC
+	</select>
+</mapper>

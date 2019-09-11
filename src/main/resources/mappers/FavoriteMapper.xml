@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="FavoriteMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id="favorite" type="project.spring.travel.model.Favorite">
+        <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="favoriteId" column="favoriteId" />
+        <result property="memberId" column="memberId" />
+        <result property="thumbnail" column="thumbnail" />
+        <result property="refType" column="refType" />
+        <result property="regDate" column="regDate" />
+        <result property="link" column="link" />
+        <result property="title" column="title" />
+        <result property="category" column="category" />
+        <result property="ctitle" column="ctitle" />
+        <result property="cftitle" column="cftitle" />
+        <result property="contentId" column="contentId" />
+        <result property="servicearea_groupId" column="servicearea_groupId" />
+        <result property="serviceareaName" column="serviceareaName" />
+        <result property="tourId" column="tourId" />
+        <result property="seq" column="seq" />
+        <result property="cultureId" column="cultureId" />
+        <result property="imageUrl" column="imageUrl" />
+        <result property="boardId" column="boardId" />
+        <result property="firstImage" column="firstImage" />
+    </resultMap>
+    
+    
+    
+    <!-- 즐겨찾기 버튼을 눌렀을 때 insert 하는 기능 -->
+    <insert id="addFavorite" parameterType="project.spring.travel.model.Favorite"
+        useGeneratedKeys="true" keyProperty="favoriteId">
+        INSERT INTO favorite (memberId, refType, regDate, link, boardId, cultureId, servicearea_groupId, tourId
+        ) VALUES (#{memberId}, #{refType}, now(), #{link}, #{boardId}, #{cultureId}, #{servicearea_groupId}, #{tourId}
+        )
+        
+        
+    </insert>
+    
+    <!-- 활성화된 즐겨찾기 버튼을 다시 눌렀을 때 삭제하는 기능 -->
+    <delete id="deleteFavorite" parameterType="project.spring.travel.model.Favorite">
+        DELETE FROM favorite
+        WHERE memberId=#{memberId} AND link=#{link}
+        
+    </delete>
+    
+    <!-- 마이페이지에서 일괄삭제를 눌렀을 때 삭제하는 기능 -->
+    <delete id="deleteFavoriteViaMypage" parameterType="project.spring.travel.model.Favorite">
+        DELETE FROM favorite
+        WHERE memberId=#{memberId} AND favoriteId=#{favoriteId}
+        
+    </delete>
+    
+    <!-- 
+        즐겨찾기가 호출될 때 회원이 해당 아이템을 즐겨찾기 했는지 조회
+        있으면 1 없으면 0 => 즐겨찾기 버튼을 토글하는 데 활용
+     -->
+    <select id="selectFavoriteExist" parameterType="project.spring.travel.model.Favorite"
+        resultType="int">
+        SELECT COUNT(*)
+        FROM favorite f
+        
+        WHERE 
+        <choose>    
+            <when test="boardId != null">
+                boardId=#{boardId} 
+            </when>
+            <when test="cultureId != null">
+                cultureId=#{cultureId} 
+            </when>
+            <when test="servicearea_groupId != null">
+                servicearea_groupId=#{servicearea_groupId} 
+            </when>
+            <when test="tourId != null">
+                tourId=#{tourId}
+            </when>
+        </choose>           
+         AND memberId=#{memberId}
+    </select>
+    
+    <!-- MemberId에 맞는 즐겨찾기를 가져오는 메서드 -->
+    <select id="selectFavoriteByMemberId" parameterType="project.spring.travel.model.Favorite" resultMap="favorite">
+        SELECT favoriteId, thumbnail, f.memberId, refType, substring(f.regDate, 1, 10) `regDate`, link, f.boardId, f.cultureId, f.servicearea_groupId, f.tourId
+            , bl.title, bl.category
+            , cp.title ctitle, cp.seq, cf.title cftitle, cf.contentId, cf.firstImage
+            , sg.serviceareaName, sg.imageUrl        
+        FROM favorite f
+        Left Outer Join board_list bl On f.boardId = bl.boardId
+        Left Outer Join culture_perf cp On f.cultureId = cp.seq
+        Left Outer Join culture_fest cf On f.cultureId = cf.contentId
+        Left Outer Join servicearea_group sg On f.servicearea_groupId = sg.servicearea_groupId
+        WHERE
+            f.memberId=#{memberId} And 
+            
+            (
+                f.boardId In (select f.boardId from favorite f where f.memberId = #{memberId}) Or 
+                f.cultureId In (select f.cultureId from favorite f where f.memberId = #{memberId}) Or
+                f.servicearea_groupId In (select f.servicearea_groupId from favorite f where f.memberId = #{memberId})
+            )
+        ORDER BY favoriteId desc
+        LIMIT #{limitStart}, #{listCount}
+    </select>
+    
+    
+    
+    
+    <!-- 페이지 구현을 위해 총 개수를 세는 메서드 -->
+    <select id="selectFavoriteByMemberIdCount" parameterType="project.spring.travel.model.Favorite" resultType="int">
+        SELECT count(favoriteId)
+        FROM favorite
+        WHERE memberId=#{memberId}
+    </select>
+    
+    <!-- 마이페이지 홈 캐러셀을 구현하기 위한 메서드  -->
+    <select id="selectFavoriteThumbnailByMemberId" parameterType="project.spring.travel.model.Favorite" resultMap="favorite">
+        SELECT memberId, refType, substring(regDate, 1, 10) `regDate`, thumbnail
+        FROM favorite f, culture_perf cp
+        WHERE f.cultureId = cp.cultureId
+        <!-- 아직 보수중  -->
+    </select>
+    
+    
+    
+    
+    <select id="selectItemOnFavorite" parameterType="project.spring.travel.model.Favorite" resultMap="favorite">
+        SELECT memberId, refType, regDate FROM favorite
+    </select>
+    
+    
+    <!-- 회원탈퇴 시 멤버id를 null처리 해주는 메서드 -->
+    <update id="updateFavoriteByMemberOut" parameterType="project.spring.travel.model.Favorite">
+        UPDATE favorite
+        SET    memberId=NULL
+        WHERE  memberId=#{memberId}
+    </update>
+    
+    <!-- 해당 회원의 게시물이 다른 회원에 의해 얼마나 찜됐나 세는 메서드(등급용)  -->
+    <select id="FavoriteCountByOthers" parameterType="project.spring.travel.model.Favorite" resultType="int">
+        SELECT COUNT(favoriteId)      
+        FROM favorite
+        WHERE boardId IN (
+            SELECT boardId
+            FROM board_list
+            WHERE memberId=#{memberId}
+        )
+    </select>
+    
+    
+    
+</mapper>

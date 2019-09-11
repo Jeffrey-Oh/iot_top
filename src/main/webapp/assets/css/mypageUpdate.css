@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+/*====== visual ======*/
+#visual .bg {
+    background-image: url(../../images/member/bg4.jpg);
+    background-position: center 47%;
+}
+
+.input_header {
+	margin-bottom: 50px;
+	margin-left: 40px;
+	margin-top: 70px;
+	font-size: 18px;
+	
+}
+
+.form-group {
+	margin-bottom: 100px;
+}
+
+.form-box {
+	border: 3px solid #ff857c;
+	width: 500px;
+	margin: 150px auto 200px auto;
+	margin-top: 150px;
+	position: relative;
+}
+

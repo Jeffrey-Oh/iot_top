@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="BoardReplyLikeMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="replyLike"
+		type="project.spring.travel.model.BoardReplyLike">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="replyLikeId" column="replyLikeId" />
+		<result property="replyId" column="replyId" />
+		<result property="memberId" column="memberId" />
+	</resultMap>
+
+	<resultMap id="replyReplyLike"
+		type="project.spring.travel.model.BoardReplyReplyLike">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="replyReplyLikeId" column="replyReplyLikeId" />
+		<result property="replyReplyId" column="replyReplyId" />
+		<result property="memberId" column="memberId" />
+		<result property="replyId" column="replyId" />
+	</resultMap>
+
+	<!-- 게시물 댓글 좋아요 + 1 -->
+	<insert id="addBoardReplyLike"
+		parameterType="project.spring.travel.model.BoardReplyLike"
+		useGeneratedKeys="true" keyProperty="replyLikeId">
+		INSERT INTO reply_like (memberId,
+		replyId)
+		VALUES (#{memberId}, #{replyId});
+	</insert>
+
+	<!-- 게시물 댓글의 댓글 좋아요 + 1 -->
+	<insert id="addBoardReplyReplyLike"
+		parameterType="project.spring.travel.model.BoardReplyReplyLike"
+		useGeneratedKeys="true" keyProperty="replyReplyLikeId">
+		INSERT INTO reply_reply_like (memberId,
+		replyReplyId, replyId)
+		VALUES (#{memberId}, #{replyReplyId}, #{replyId});
+	</insert>
+
+	<!-- 게시물 댓글 좋아요 - 1 -->
+	<delete id="deleteBoardReplyLike"
+		parameterType="project.spring.travel.model.BoardReplyLike">
+		DELETE FROM reply_like
+		WHERE memberId=#{memberId} AND
+		replyId=#{replyId}
+	</delete>
+	
+	<!-- 게시물 댓글의 댓글 좋아요 - 1 -->
+	<delete id="deleteBoardReplyReplyLike"
+		parameterType="project.spring.travel.model.BoardReplyReplyLike">
+		DELETE FROM reply_reply_like
+		WHERE memberId=#{memberId} AND
+		replyReplyId=#{replyReplyId}
+	</delete>
+
+	<!-- 게시물 댓글 좋아요 찜리스트 -->
+	<select id="selectBoardReplyLikeList"
+		parameterType="project.spring.travel.model.BoardReplyLike"
+		resultMap="replyLike">
+		SELECT replyId FROM reply_like
+		WHERE memberId=#{memberId} AND
+		replyId=#{replyId}
+	</select>
+	
+	<!-- 게시물 댓글의 댓글 좋아요 찜리스트 -->
+	<select id="selectBoardReplyReplyLikeList"
+		parameterType="project.spring.travel.model.BoardReplyReplyLike"
+		resultMap="replyLike">
+		SELECT replyReplyId FROM reply_reply_like
+		WHERE memberId=#{memberId} AND
+		replyReplyId=#{replyReplyId}
+	</select>
+
+	<!-- 특정 회원과의 게시물 댓글 좋아요 참조 해제하기 -->
+	<update id="updateBoardReplyLikeMemberOut"
+		parameterType="project.spring.travel.model.BoardReplyLike">
+		UPDATE reply_like
+		SET memberId=NULL
+		WHERE memberId=#{memberId}
+	</update>
+	
+	<!-- 특정 회원과의 게시물 댓글의 댓글 좋아요 참조 해제하기 -->
+	<update id="updateBoardReplyReplyLikeMemberOut"
+		parameterType="project.spring.travel.model.BoardReplyReplyLike">
+		UPDATE reply_reply_like
+		SET memberId=NULL
+		WHERE memberId=#{memberId}
+	</update>
+
+	<!-- 등급제 처리를 위한 카운트 -->
+	<select id="countByMemberId"
+		parameterType="project.spring.travel.model.BoardReplyLike"
+		resultType="int">
+		SELECT COUNT(memberId) FROM reply_like
+		WHERE
+		memberId=#{memberId}
+	</select>
+	
+	<!-- 등급제 처리를 위한 카운트 -->
+	<select id="reCountByMemberId"
+		parameterType="project.spring.travel.model.BoardReplyReplyLike"
+		resultType="int">
+		SELECT COUNT(memberId) FROM reply_reply_like
+		WHERE
+		memberId=#{memberId}
+	</select>
+
+	<select id="countByUser"
+		parameterType="project.spring.travel.model.BoardReplyLike"
+		resultType="int">
+		SELECT COUNT(replyLikeId)
+		FROM reply_like
+		WHERE replyId IN (
+		SELECT replyId
+		FROM board_reply
+		WHERE memberId=#{memberId}
+		)
+	</select>
+	
+	<select id="reCountByUser"
+		parameterType="project.spring.travel.model.BoardReplyReplyLike"
+		resultType="int">
+		SELECT COUNT(replyReplyLikeId)
+		FROM reply_reply_like
+		WHERE replyReplyId IN (
+		SELECT replyReplyId
+		FROM reply_reply
+		WHERE memberId=#{memberId}
+		)
+	</select>
+
+	<!-- 게시물 댓글 좋아요 확인 -->
+	<select id="replyCheck"
+		parameterType="project.spring.travel.model.BoardReplyLike"
+		resultType="int">
+		SELECT count(*)
+		FROM reply_like
+		WHERE replyId=#{replyId} AND
+		memberId=#{memberId}
+	</select>
+	
+	<!-- 게시물 댓글의 댓글 좋아요 현황 -->
+	<select id="replyReplyCheck"
+		parameterType="project.spring.travel.model.BoardReplyReplyLike"
+		resultType="int">
+		SELECT count(*)
+		FROM reply_reply_like
+		WHERE replyReplyId=#{replyReplyId} AND
+		memberId=#{memberId}
+	</select>
+	
+</mapper>

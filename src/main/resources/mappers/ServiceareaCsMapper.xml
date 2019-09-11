@@ -1,0 +1,109 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : ServiceareaCsMapper.xml
+    @author      : 홍준성
+    @description : 휴게소 전기차 충전소 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-04-22
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "ServiceareaCsMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "serviceareaCs" type = "project.spring.travel.model.ServiceareaCs">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="servicearea_csId" column="servicearea_csId"/>
+        <result property="chgerId" column="chgerId"/>
+        <result property="statId" column="statId"/>
+        <result property="stat" column="stat"/>
+        <result property="chgerType" column="chgerType"/>
+        <result property="lat" column="lat"/>
+        <result property="lng" column="lng"/>
+        <result property="addrDoro" column="addrDoro"/>
+        <result property="statNm" column="statNm"/>
+        <result property="useTime" column="useTime"/>
+        <result property="regDate" column="regDate"/>
+        <result property="editDate" column="editDate"/>
+    </resultMap>
+
+    <!-- ===== 휴게소 전기차 충전소 정보 업데이트 ===== -->
+    <update id = "updateServiceareaCsByStatNm"
+        parameterType = "project.spring.travel.model.ServiceareaCs">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update servicearea_cs 
+        Set 
+            chgerId = #{chgerId}, 
+            statId = #{statId}, 
+            stat = #{stat}, 
+            chgerType = #{chgerType}, 
+            lat = #{lat}, 
+            lng = #{lng}, 
+            addrDoro = #{addrDoro}, 
+            statNm = #{statNm}, 
+            useTime = #{useTime}, 
+            editDate = now() 
+        Where statNm = #{statNm}
+    </update>
+    
+    <!-- ===== 휴게소 전기차 충전소 정보 저장 ===== -->
+    <insert id = "insertServiceareaCs"
+            parameterType = "project.spring.travel.model.ServiceareaCs"
+            useGeneratedKeys = "true"
+            keyProperty = "servicearea_csId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Insert Into servicearea_cs (
+            chgerId, statId, stat, chgerType, lat, lng, addrDoro, 
+            statNm, useTime, regDate
+        ) Values (
+            #{chgerId}, #{statId}, #{stat}, #{chgerType}, #{lat}, #{lng}, #{addrDoro}, 
+            #{statNm}, #{useTime}, now()
+        )
+    </insert>
+    
+    <!-- ===== 휴게소 전기차 충전소 정보 조회 ===== -->
+    <select id = "selectServiceareaCs"
+            parameterType = "project.spring.travel.model.ServiceareaCs"
+            resultMap = "serviceareaCs">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_csId, chgerId, statId, stat, chgerType, lat, lng, 
+            addrDoro, statNm, useTime, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_cs 
+        Where servicearea_csId = #{servicearea_csId}
+    </select>
+    
+    <!-- ===== 휴게소 전기차 충전소 정보 다중 조회 ===== -->
+    <select id = "selectServiceareaCsList"
+            parameterType = "project.spring.travel.model.ServiceareaCs"
+            resultMap = "serviceareaCs">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_csId, chgerId, statId, stat, chgerType, lat, lng, 
+            addrDoro, statNm, useTime, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_cs 
+    </select>
+    
+    <!-- ===== 휴게소 전기차 충전소 정보를 휴게소 이름으로 조회 ===== -->
+    <select id = "selectServiceareaCsByStatNm"
+            parameterType = "project.spring.travel.model.ServiceareaCs"
+            resultMap = "serviceareaCs">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_csId, chgerId, statId, stat, chgerType, lat, lng, 
+            addrDoro, statNm, useTime, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_cs 
+        Where statNm Like Concat('%', #{statNm}, '%') 
+        Limit 0, 1
+    </select>
+    
+</mapper>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="BoardReplyMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="reply"
+		type="project.spring.travel.model.BoardReply">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="replyId" column="replyId" />
+		<result property="userName" column="userName" />
+		<result property="content" column="content" />
+		<result property="replyLike" column="replyLike" />
+		<result property="regDate" column="regDate" />
+		<result property="editDate" column="editDate" />
+		<result property="boardId" column="boardId" />
+		<result property="memberId" column="memberId" />
+		<result property="limitStart" column="limitStart" />
+		<result property="listCount" column="listCount" />
+		<result property="grade" column="grade" />
+	</resultMap>
+
+	<resultMap id="replyReply"
+		type="project.spring.travel.model.BoardReplyReply">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="replyReplyId" column="replyReplyId" />
+		<result property="userName" column="userName" />
+		<result property="content" column="content" />
+		<result property="replyReplyLike" column="replyReplyLike" />
+		<result property="regDate" column="regDate" />
+		<result property="editDate" column="editDate" />
+		<result property="replyId" column="replyId" />
+		<result property="memberId" column="memberId" />
+		<result property="limitStart" column="limitStart" />
+		<result property="listCount" column="listCount" />
+		<result property="grade" column="grade" />
+	</resultMap>
+
+	<!-- 댓글 정보 저장하기 -->
+	<insert id="insertComment"
+		parameterType="project.spring.travel.model.BoardReply"
+		useGeneratedKeys="true" keyProperty="replyId">
+		INSERT INTO board_reply (
+		userName, content, replyLike, regDate, editDate, boardId, memberId
+		)
+		VALUES (
+		#{userName}, #{content}, 0, now(), now(), #{boardId}, #{memberId}
+		)
+	</insert>
+	
+	<!-- 댓글의 댓글 정보 저장하기 -->
+	<insert id="insertReComment"
+		parameterType="project.spring.travel.model.BoardReplyReply"
+		useGeneratedKeys="true" keyProperty="replyReplyId">
+		INSERT INTO reply_reply (
+		userName, content, replyReplyLike, regDate, editDate, replyId, memberId
+		)
+		VALUES (
+		#{userName}, #{content}, 0, now(), now(), #{replyId}, #{memberId}
+		)
+	</insert>
+
+	<!-- 댓글 하나에 대한 정보를 조회한다. -->
+	<select id="selectComment"
+		parameterType="project.spring.travel.model.BoardReply" resultMap="reply">
+		SELECT
+		replyId, b.userName, content, replyLike,
+		DATE_FORMAT(b.regDate, '%Y-%m-%d') as regDate,
+		DATE_FORMAT(b.editDate, '%Y-%m-%d') as editDate,
+		b.memberId, boardId, IF(b.memberId is null, b.grade, m.grade) `grade`
+		FROM board_reply b LEFT OUTER JOIN member m ON b.memberId=m.memberId
+		WHERE replyId=#{replyId}
+	</select>
+	
+	<!-- 댓글의 댓글 하나에 대한 정보를 조회한다. -->
+	<select id="selectReComment"
+		parameterType="project.spring.travel.model.BoardReplyReply" resultMap="replyReply">
+		SELECT
+		replyReplyId, r.userName, content, replyReplyLike,
+		DATE_FORMAT(r.regDate, '%Y-%m-%d') as regDate,
+		DATE_FORMAT(r.editDate, '%Y-%m-%d') as editDate,
+		r.memberId, replyId, IF(r.memberId is null, r.grade, m.grade) `grade`
+		FROM reply_reply r LEFT OUTER JOIN member m ON r.memberId=m.memberId
+		WHERE replyReplyId=#{replyReplyId}
+	</select>
+	
+	<!-- 하나의 게시물에 속한 모든 댓글 목록을 조회한다. 삭제하기 위해서 replyId 수집 -->
+	<select id="selectCommentListByReplyId"
+		parameterType="project.spring.travel.model.BoardReply" resultMap="reply">
+		SELECT
+		replyId
+		FROM board_reply
+		WHERE boardId=#{boardId}
+		ORDER BY replyId ASC
+	</select>
+
+	<!-- 하나의 게시물에 속한 모든 댓글 목록을 조회한다. -->
+	<select id="selectCommentList"
+		parameterType="project.spring.travel.model.BoardReply" resultMap="reply">
+		SELECT
+		replyId, b.userName, content, replyLike,
+		DATE_FORMAT(b.regDate, '%Y-%m-%d') as regDate,
+		DATE_FORMAT(b.editDate, '%Y-%m-%d') as editDate,
+		b.memberId, boardId, IF(b.memberId is null, b.grade, m.grade) `grade`
+		FROM board_reply b LEFT OUTER JOIN member m ON b.memberId=m.memberId
+		WHERE boardId=#{boardId}
+		ORDER BY replyId ASC
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+	
+	<!-- 댓글의 댓글에 속한 모든 댓글 목록을 조회한다. -->
+	<select id="selectReCommentList"
+		parameterType="project.spring.travel.model.BoardReplyReply" resultMap="replyReply">
+		SELECT
+		replyReplyId, r.userName, content, replyReplyLike,
+		DATE_FORMAT(r.regDate, '%Y-%m-%d') as regDate,
+		DATE_FORMAT(r.editDate, '%Y-%m-%d') as editDate,
+		r.memberId, replyId, IF(r.memberId is null, r.grade, m.grade) `grade`
+		FROM reply_reply r LEFT OUTER JOIN member m ON r.memberId=m.memberId 
+		WHERE replyId=#{replyId}
+		ORDER BY replyReplyId ASC
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+
+	<!-- 댓글 개수 카운트 -->
+	<select id="selectCount"
+		parameterType="project.spring.travel.model.BoardReply" resultType="int">
+		SELECT count(*)
+		FROM board_reply
+		WHERE boardId=#{boardId}
+	</select>
+	
+	<!-- 댓글의 댓글 개수 카운트 -->
+	<select id="selectReCount"
+		parameterType="project.spring.travel.model.BoardReplyReply" resultType="int">
+		SELECT count(*)
+		FROM reply_reply
+		WHERE replyId=#{replyId}
+	</select>
+
+	<!-- 자신의 댓글인지 검사한다. -->
+	<select id="selectCommentCountByMemberId"
+		parameterType="project.spring.travel.model.BoardReply" resultType="int">
+		SELECT count(replyId) FROM board_reply
+		WHERE replyId=#{replyId} AND
+		memberId=#{memberId}
+	</select>
+	
+	<!-- 자신의 댓글인지 검사한다. -->
+	<select id="selectReCommentCountByMemberId"
+		parameterType="project.spring.travel.model.BoardReplyReply" resultType="int">
+		SELECT count(replyReplyId) FROM reply_reply
+		WHERE replyReplyId=#{replyReplyId} AND
+		memberId=#{memberId}
+	</select>
+
+	<!-- 댓글 삭제 하기 -->
+	<delete id="deleteComment"
+		parameterType="project.spring.travel.model.BoardReply">
+		DELETE FROM board_reply WHERE replyId=#{replyId}
+	</delete>
+	
+	<!-- 댓글의 댓글 삭제 하기 -->
+	<delete id="deleteReComment"
+		parameterType="project.spring.travel.model.BoardReplyReply">
+		DELETE FROM reply_reply
+		<where>
+			<choose>
+				<when test="replyReplyId != 0">
+					replyReplyId=#{replyReplyId}
+				</when>
+				<otherwise>
+					replyId=#{replyId}
+				</otherwise>
+			</choose>
+		</where>
+		
+	</delete>
+
+	<!-- 특정 게시물에 속한 모든 댓글을 삭제 -->
+	<delete id="deleteCommentAll"
+		parameterType="project.spring.travel.model.BoardReply">
+		DELETE FROM board_reply WHERE boardId=#{boardId}
+	</delete>
+
+	<!-- 댓글 정보 수정하기 -->
+	<update id="updateComment"
+		parameterType="project.spring.travel.model.BoardReply">
+		UPDATE board_reply SET
+		content=#{content},
+		editDate=now()
+		WHERE replyId=#{replyId} AND memberId=#{memberId}
+	</update>
+	
+	<!-- 댓글의 댓글 정보 수정하기 -->
+	<update id="updateReComment"
+		parameterType="project.spring.travel.model.BoardReplyReply">
+		UPDATE reply_reply SET
+		content=#{content},
+		editDate=now()
+		WHERE replyReplyId=#{replyReplyId} AND memberId=#{memberId}
+	</update>
+
+	<!-- 특정 회원과의 게시물 참조 해제하기 -->
+	<update id="updateCommentMemberOut"
+		parameterType="project.spring.travel.model.BoardReply">
+		UPDATE board_reply
+		SET memberId=NULL, editDate=now()
+		WHERE memberId=#{memberId}
+	</update>
+	
+	<!-- 특정 댓글의 댓글 참조 해제하기 -->
+	<update id="updateReCommentMemberOut"
+		parameterType="project.spring.travel.model.BoardReplyReply">
+		UPDATE reply_reply
+		SET memberId=NULL, editDate=now()
+		WHERE memberId=#{memberId}
+	</update>
+
+	<!-- 댓글 좋아요 증가 -->
+	<update id="editBoardReplyByLikeUp"
+		parameterType="project.spring.travel.model.BoardReply">
+		UPDATE board_reply SET replyLike=#{replyLike}+1 WHERE
+		replyId=#{replyId};
+	</update>
+	
+	<!-- 댓글의 댓글 좋아요 증가 -->
+	<update id="editBoardReplyReplyByLikeUp"
+		parameterType="project.spring.travel.model.BoardReplyReply">
+		UPDATE reply_reply SET replyReplyLike=#{replyReplyLike}+1 WHERE
+		replyReplyId=#{replyReplyId};
+	</update>
+
+	<!-- 댓글 좋아요 감소 -->
+	<update id="editBoardReplyByLikeDown"
+		parameterType="project.spring.travel.model.BoardReply">
+		UPDATE board_reply SET replyLike=#{replyLike}-1 WHERE
+		replyId=#{replyId};
+	</update>
+	
+	<!-- 댓글의 댓글 좋아요 감소 -->
+	<update id="editBoardReplyReplyByLikeDown"
+		parameterType="project.spring.travel.model.BoardReplyReply">
+		UPDATE reply_reply SET replyReplyLike=#{replyReplyLike}-1 WHERE
+		replyReplyId=#{replyReplyId};
+	</update>
+
+	<!-- 등급제 처리를 위한 카운트 -->
+	<select id="countByMemberId"
+		parameterType="project.spring.travel.model.BoardReply" resultType="int">
+		SELECT COUNT(memberId) FROM board_reply
+		WHERE memberId=#{memberId}
+	</select>
+	
+	<!-- 등급제 처리를 위한 카운트 -->
+	<select id="reCountByMemberId"
+		parameterType="project.spring.travel.model.BoardReplyReply" resultType="int">
+		SELECT COUNT(memberId) FROM reply_reply
+		WHERE memberId=#{memberId}
+	</select>
+
+	<!-- 특정 댓글에 속한 좋아요 참조관계 해제 및 삭제 -->
+	<delete id="deleteReplyLike"
+		parameterType="project.spring.travel.model.BoardReply">
+		DELETE FROM reply_like WHERE replyId=#{replyId}
+	</delete>
+	
+	<!-- 특정 댓글의 댓글에 속한 좋아요 참조관계 해제 및 삭제 -->
+	<delete id="deleteReplyReplyLike"
+		parameterType="project.spring.travel.model.BoardReplyReply">
+		DELETE FROM reply_reply_like
+		<where>
+			<choose>
+				<when test="replyReplyId != 0">
+					replyReplyId=#{replyReplyId}
+				</when>
+				<otherwise>
+					replyId=#{replyId}
+				</otherwise>
+			</choose>
+		</where>
+	</delete>
+	
+	<select id="selectReplyIdByReplyReply" parameterType="project.spring.travel.model.BoardReplyReply" resultMap="replyReply">
+		SELECT replyId
+		FROM reply_reply
+		WHERE replyReplyId=#{replyReplyId}
+	</select>
+	
+	<!-- 회원탈퇴 후 마지막 등급 업데이트 -->
+	<update id="updateReplyLastGrade" parameterType="project.spring.travel.model.BoardReplyReply">
+		UPDATE board_reply SET grade=#{grade}
+		WHERE memberId=#{memberId}
+	</update>
+	
+	<update id="updateReplyReplyLastGrade" parameterType="project.spring.travel.model.BoardReplyReply">
+		UPDATE reply_reply SET grade=#{grade}
+		WHERE memberId=#{memberId}
+	</update>
+	
+	<!-- 현재 게시물 안에 있는 댓글인지 판단 -->
+	<select id="selectCheckThisReplyIdByBoard" parameterType="project.spring.travel.model.BoardReply" resultType="int">
+		SELECT count(*) FROM board_reply
+		WHERE replyId IN (SELECT replyId FROM board_reply WHERE boardId=#{boardId}) AND replyId=#{replyId};
+	</select>
+	
+</mapper>

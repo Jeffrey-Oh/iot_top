@@ -1,0 +1,92 @@
+#visual .bg {
+	background-image: url(../../images/customer/customer.jpg);
+	height: 400px !important;
+}
+
+.marginTop20 {
+	margin-top: 20px;
+}
+
+.notice_aside {
+	width: 60%;
+}
+
+.notice_aside tr:last-child {
+	border-bottom: 1px solid #d5d5d5;
+}
+
+.notice_aside tr {
+	height: 36px !important;
+}
+
+.qna-box {
+	width: 40%;
+	padding-left: 40px;
+}
+
+.qna-box a:link, .qna-box a:visited {
+	text-decoration: none;
+	color: black;
+}
+
+.qna-title>button {
+	display: inline-block;
+	padding: 5px;
+	position: relative;
+	top: 5px;
+	right: 300px;
+	margin-left: 5px;
+	padding: 0;
+}
+
+.quick-call {
+	width: 40%;
+	padding-left: 40px;
+}
+
+.quick-call .fl {
+	width: 60%;
+	height: 150px;
+	border: 1px solid #d5d5d5;
+	background-color: rgba(213, 213, 213, 0.1);
+	border-right: 0;
+	padding: 10px;
+}
+
+.quick-call .fr {
+	width: 40%;
+	height: 150px;
+	border: 1px solid #d5d5d5;
+	border-left: 0;
+}
+
+.item-circle {
+	width: 8px;
+	height: 8px;
+	background: #05a;
+	display: inline-block;
+	border-radius: 4px;
+	position: relative;
+	top: -7px;
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+.call-number, .open-time, .ps-box {
+	margin-top: 10px;
+	display: inline-block;
+}
+
+.side-quickbar {
+	position: absolute;
+	top: 50px;
+	right: -200px;
+	width: 150px;
+	padding: 10px;
+	background-color: #49738c;
+}
+
+.side-quickbar a:first-child {
+	margin-bottom: 10px;
+	display: inline-block;
+}

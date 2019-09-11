@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="BoardMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="board" type="project.spring.travel.model.BoardList">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="boardId" column="boardId" />
+		<result property="category" column="category" />
+		<result property="korCtg" column="korCtg" />
+		<result property="title" column="title" />
+		<result property="userName" column="userName" />
+		<result property="content" column="content" />
+		<result property="boardCount" column="boardCount" />
+		<result property="boardLike" column="boardLike" />
+		<result property="regDate" column="regDate" />
+		<result property="editDate" column="editDate" />
+		<result property="memberId" column="memberId" />
+		<result property="noticeChk" column="noticeChk" />
+	</resultMap>
+	
+	<!-- 게시물 등록 -->
+	<insert id="addBoard" parameterType="project.spring.travel.model.BoardList"
+		useGeneratedKeys="true" keyProperty="boardId">
+		INSERT INTO board_list (category, korCtg, title, userName, content,
+		boardCount, boardLike,
+		regDate, editDate, memberId, noticeChk) VALUES (#{category}, #{korCtg}, #{title},
+		#{userName}, #{content}, 0, 0, now(), now(), #{memberId}, #{noticeChk})
+	</insert>
+
+	<!-- 게시물 삭제 -->
+	<delete id="removeBoardById"
+		parameterType="project.spring.travel.model.BoardList">
+		DELETE FROM board_list WHERE boardId=#{boardId}
+	</delete>
+
+	<!-- 게시물 수정 -->
+	<update id="editBoard" parameterType="project.spring.travel.model.BoardList">
+		UPDATE board_list SET title=#{title}, content=#{content}, editDate=now()
+		WHERE memberId=#{memberId} AND boardId=#{boardId}
+	</update>
+	
+	<!-- 공지사항 수정 -->
+	<update id="editNotice" parameterType="project.spring.travel.model.BoardList">
+		UPDATE board_list SET title=#{title}, content=#{content}, noticeChk=#{noticeChk}, editDate=now()
+		WHERE memberId=#{memberId} AND boardId=#{boardId}
+	</update>
+
+	<!-- 조회수 증가 -->
+	<update id="editBoardByCount"
+		parameterType="project.spring.travel.model.BoardList">
+		UPDATE board_list SET boardCount=boardCount+1 WHERE boardId=#{boardId}
+	</update>
+	
+	<!-- 좋아요 증가 -->
+	<update id="editBoardByLikeUp"
+		parameterType="project.spring.travel.model.BoardList">
+		UPDATE board_list SET boardLike=#{boardLike}+1 WHERE boardId=#{boardId}
+	</update>
+	
+	<!-- 좋아요 감소 -->
+	<update id="editBoardByLikeDown"
+		parameterType="project.spring.travel.model.BoardList">
+		UPDATE board_list SET boardLike=#{boardLike}-1 WHERE boardId=#{boardId}
+	</update>
+	
+	<!-- 공지사항 최대 5개 목록 조회 -->
+	<select id="getBoardNotice" parameterType="project.spring.travel.model.BoardList" resultMap="board">
+		SELECT boardId, category, korCtg, title, userName, content, boardCount, boardLike,
+		substring(regDate, 1, 10) `regDate`, substring(editDate, 1, 10) `editDate`, memberId, noticeChk FROM board_list
+		WHERE korCtg='공지사항' AND noticeChk='on'
+		ORDER BY boardId DESC
+		LIMIT 0, 5
+	</select>
+	
+	<!-- 공지사항 공지 등록된 개수 조회 -->
+	<select id="getBoardNoticeCount" parameterType="project.spring.travel.model.BoardList" resultType="int">
+		SELECT COUNT(*) 
+		FROM board_list
+		WHERE korCtg='공지사항' AND noticeChk='on'
+	</select>
+	
+	<!-- 공지사항 총 개수 조회 -->
+	<select id="getBoardNoticeCountAll" parameterType="project.spring.travel.model.BoardList" resultType="int">
+		SELECT COUNT(*) 
+		FROM board_list
+		WHERE korCtg='공지사항'
+	</select>
+	
+	<!-- 게시물 조회 (커뮤니티) -->
+	<select id="getBoardItem" parameterType="project.spring.travel.model.BoardList" resultMap="board">
+		SELECT boardId, category, korCtg, title, userName, content, boardCount, boardLike,
+		substring(regDate, 1, 10) `regDate`, substring(editDate, 1, 10) `editDate`, memberId FROM board_list WHERE boardId=#{boardId}
+	</select>
+	
+	<!-- 공지사항 조회 (커뮤니티) -->
+	<select id="getBoardNoticeItem" parameterType="project.spring.travel.model.BoardList" resultMap="board">
+		SELECT boardId, category, korCtg, title, userName, content, boardCount, boardLike,
+		substring(regDate, 1, 10) `regDate`, substring(editDate, 1, 10) `editDate`, memberId, noticeChk FROM board_list WHERE boardId=#{boardId}
+	</select>
+	
+	<!-- 전체 게시물 리스트 (페이징) -->
+	<select id="getBoardList" parameterType="project.spring.travel.model.BoardList" resultMap="board">
+		SELECT boardId, category, korCtg, title, userName, content, boardCount, boardLike,
+		substring(regDate, 1, 10) `regDate`, substring(editDate, 1, 10) `editDate`, memberId FROM board_list
+		<where>
+			<!-- 카테고리 문의하기, 공지사항 제외 -->
+			<if test="korCtg == null">
+				NOT korCtg='문의하기' AND NOT korCtg='공지사항'
+			</if>
+			<!-- 카테고리 게시물 개수 -->
+			<if test="korCtg != null">
+				korCtg=#{korCtg}
+			</if>
+			<if test="title != null or content != null">
+				<!-- 제목 검색 결과 총 개수 -->
+				<if test="title != null">
+					AND replace(title,' ','') like replace(concat('%', #{title}, '%'),' ','')
+				</if>
+				<!-- 제목|내용 검색 결과 총 개수 -->
+				<if test="content != null">
+					OR replace(content,' ','') like replace(concat('%', #{content}, '%'),' ','')
+				</if>
+			</if>
+			<!-- 작성자 검색 결과 총 개수 -->
+			<if test="(userName != null and userName != '')">
+				AND replace(userName,' ','') like replace(concat('%', #{userName}, '%'),' ','')
+			</if>
+		</where>
+		ORDER BY boardId DESC
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+	
+	<!-- 현재 커뮤니티 전체 게시물 개수 -->
+	<select id="getCount" parameterType="project.spring.travel.model.BoardList" resultType="int">
+		SELECT count(boardId) FROM board_list
+		<where>
+			<!-- 카테고리 문의하기 제외 -->
+			<if test="korCtg == null">
+				NOT korCtg='문의하기'
+			</if>
+			<!-- 카테고리 게시물 개수 -->
+			<if test="korCtg != null">
+				korCtg=#{korCtg}
+			</if>
+			<if test="title != null or content != null">
+				<!-- 제목 검색 결과 총 개수 -->
+				<if test="title != null">
+					AND replace(title,' ','') like replace(concat('%', #{title}, '%'),' ','')
+				</if>
+				<!-- 제목|내용 검색 결과 총 개수 -->
+				<if test="content != null">
+					OR replace(content,' ','') like replace(concat('%', #{content}, '%'),' ','')
+				</if>
+			</if>
+			<!-- 작성자 검색 결과 총 개수 -->
+			<if test="(userName != null and userName != '')">
+				AND replace(userName,' ','') like replace(concat('%', #{userName}, '%'),' ','')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 자신의 게시물인지 검사한다 -->
+	<select id="selectDocumentCountByMemberId" parameterType="project.spring.travel.model.BoardList" resultType="int">
+		SELECT COUNT(boardId) FROM board_list
+		WHERE korCtg=#{korCtg} AND boardId=#{boardId} AND memberId=#{memberId}
+	</select>
+	
+	<!-- 특정 회원과의 게시물 참조 해제하기 -->
+	<update id="updateDocumentMemberOut" parameterType="project.spring.travel.model.BoardList">
+		UPDATE board_list
+		SET    memberId=NULL, editDate=now()
+		WHERE  memberId=#{memberId}
+	</update>
+	
+	<!-- 등급제 처리를 위한 카운트 -->
+	<select id="CountByMemberId" parameterType="project.spring.travel.model.BoardList" resultType="int">
+		SELECT COUNT(memberId) FROM board_list
+		WHERE memberId=#{memberId}
+	</select>
+	
+	<!-- 마이페이지 내 게시글 목록 조회 -->
+	<select id="getItemListByMemberId" parameterType="project.spring.travel.model.BoardList" resultMap="board">
+		SELECT boardId, category, korCtg, title, userName, content, boardCount, boardLike,
+		substring(regDate, 1, 10) `regDate`, substring(editDate, 1, 10) `editDate`, memberId
+		FROM board_list
+		WHERE memberId=#{memberId} AND category != 'customer'
+		ORDER BY boardId DESC
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+	
+	<!-- 마이페이지 문의내역 전체 개수 조회(페이징)  -->
+	<select id="getCountCenterByMemberId" parameterType="project.spring.travel.model.BoardList" resultType="int">
+		SELECT count(boardId) FROM board_list WHERE korCtg='문의하기' AND memberId=#{memberId}
+	</select>
+	
+	<!-- 전체 고객센터 리스트 (페이징) -->
+	<select id="getBoardListCenter"
+		parameterType="project.spring.travel.model.BoardList" resultMap="board">
+		SELECT boardId, category, korCtg, title, userName, content, boardCount, boardLike,
+		substring(regDate, 1, 10) `regDate`, substring(editDate, 1, 10) `editDate`, memberId FROM board_list
+		WHERE korCtg='문의하기' AND memberId=#{memberId}
+		ORDER BY boardId DESC
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+	
+	<!-- 게시물 조회 (고객센터) -->
+	<select id="getBoardItemCenter" parameterType="project.spring.travel.model.BoardList" resultMap="board">
+		SELECT boardId, category, korCtg, title, userName, content, boardCount, boardLike,
+		substring(regDate, 1, 10) `regDate`, substring(editDate, 1, 10) `editDate`, memberId FROM board_list
+		WHERE memberId=#{memberId} AND category = 'customer'
+		ORDER BY boardId DESC
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+	
+	<!-- 현재 고객센터 전체 게시물 개수 -->
+	<select id="getCountCenter" parameterType="project.spring.travel.model.BoardList" resultType="int">
+		SELECT count(boardId) FROM board_list WHERE korCtg='문의하기'
+	</select>
+	
+	
+	
+</mapper>

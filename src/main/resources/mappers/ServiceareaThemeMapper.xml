@@ -1,0 +1,103 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : ServiceareaThemeMapper.xml
+    @author      : 홍준성
+    @description : 휴게소 테마 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-05-02
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "ServiceareaThemeMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "serviceareaTheme" type = "project.spring.travel.model.ServiceareaTheme">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="servicearea_themeId" column="servicearea_themeId"/>
+        <result property="stdRestCd" column="stdRestCd"/>
+        <result property="stdRestNm" column="stdRestNm"/>
+        <result property="itemNm" column="itemNm"/>
+        <result property="detail" column="detail"/>
+        <result property="regDtime" column="regDtime"/>
+        <result property="lsttmAltrDttm" column="lsttmAltrDttm"/>
+        <result property="regDate" column="regDate"/>
+        <result property="editDate" column="editDate"/>
+    </resultMap>
+
+    <!-- ===== 휴게소 테마 정보 업데이트 ===== -->
+    <update id = "updateServiceareaThemeByStdRestCdAndStdRestNmAndItemNm"
+            parameterType = "project.spring.travel.model.ServiceareaTheme">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update servicearea_theme 
+        Set 
+            stdRestCd = #{stdRestCd}, 
+            stdRestNm = #{stdRestNm}, 
+            itemNm = #{itemNm}, 
+            detail = #{detail}, 
+            regDtime = #{regDtime}, 
+            lsttmAltrDttm = #{lsttmAltrDttm}, 
+            editDate = now() 
+        Where stdRestCd = #{stdRestCd} And stdRestNm = #{stdRestNm} And itemNm = #{itemNm}
+    </update>
+    
+    <!-- ===== 휴게소 테마 정보 저장 -->
+    <insert id = "insertServiceareaTheme"
+            parameterType = "project.spring.travel.model.ServiceareaTheme"
+            useGeneratedKeys = "true"
+            keyProperty = "servicearea_themeId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Insert Into servicearea_theme (
+            stdRestCd, stdRestNm, itemNm, detail, 
+            regDtime, lsttmAltrDttm, regDate 
+        ) Values (
+            #{stdRestCd}, #{stdRestNm}, #{itemNm}, #{detail}, 
+            #{regDtime}, #{lsttmAltrDttm}, now()
+        )
+    </insert>
+    
+    <!-- ===== 휴게소 테마 정보 조회 ===== -->
+    <select id = "selectServiceareaTheme"
+            parameterType = "project.spring.travel.model.ServiceareaTheme"
+            resultMap = "serviceareaTheme">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_themeId, stdRestCd, stdRestNm, itemNm, detail, 
+            regDtime, lsttmAltrDttm, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_theme 
+        Where servicearea_themeId = #{servicearea_themeId}
+    </select>
+    
+    <!-- ===== 휴게소 테마 정보 다중 조회 ===== -->
+    <select id = "selectServiceareaThemeList"
+            parameterType = "project.spring.travel.model.ServiceareaTheme"
+            resultMap = "serviceareaTheme">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_themeId, stdRestCd, stdRestNm, itemNm, detail, 
+            regDtime, lsttmAltrDttm, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_theme 
+    </select>
+    
+    <!-- ===== 휴게소 테마 정보를 휴게소 이름으로 조회 ===== -->
+    <select id = "selectServiceareaThemeByStdRestNm"
+            parameterType = "project.spring.travel.model.ServiceareaTheme"
+            resultMap = "serviceareaTheme">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_themeId, stdRestCd, stdRestNm, itemNm, detail, 
+            regDtime, lsttmAltrDttm, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_theme 
+        Where stdRestNm Like Concat('%', #{stdRestNm}, '%') 
+        Limit 0, 1
+    </select>
+    
+</mapper>

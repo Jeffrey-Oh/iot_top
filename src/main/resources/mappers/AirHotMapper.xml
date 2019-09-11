@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AirHotMapper">
+
+	<resultMap id="hot" type="project.spring.travel.model.AirHot">
+		<result property="hotId" column="hotId"/>            
+		<result property="title" column="title"/>            
+		<result property="content" column="content"/>        
+		<result property="imageUrl" column="imageUrl"/>      
+		<result property="arrivalCity" column="arrivalCity"/>
+		<result property="sql" column="sql"/>
+	</resultMap>
+
+	<!-- sql auto_increment 초기화 -->
+	<insert id="sqlReset"
+		parameterType="project.spring.travel.model.AirHot"
+		useGeneratedKeys="true" keyProperty="hotId">
+		${sql}
+	</insert>
+
+	<!-- 데이터 추가를 위한 임의 코드 -->
+	<insert id="addSql"
+		parameterType="project.spring.travel.model.AirHot"
+		useGeneratedKeys="true" keyProperty="hotId">
+		${sql}
+	</insert>
+	
+	<!-- 추천특가 단일 조회 -->
+	<select id="getAirHotItem"
+		parameterType="project.spring.travel.model.AirHot" resultMap="hot">
+		SELECT hotId, title, content, imageUrl, arrivalCity
+		FROM air_hot
+		WHERE hotId=#{hotId}
+	</select>
+
+	<!-- 추천특가 전체 조회 -->
+	<select id="getAirHotList"
+		parameterType="project.spring.travel.model.AirHot" resultMap="hot">
+		SELECT hotId, title, content, imageUrl, arrivalCity
+		FROM air_hot
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+	
+	<!-- 추천특가 총 개수 -->
+	<select id="getAirHotCnt"
+		parameterType="project.spring.travel.model.AirHot" resultType="int">
+		SELECT count(*)
+		FROM air_hot
+	</select>
+	
+	
+</mapper>

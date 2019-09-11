@@ -1,0 +1,22 @@
+/*====== visual ======*/
+#visual .bg {
+background-image: url(../../images/weather/bg.jpg);
+background-position: center 41%;
+}
+
+.loc_select {
+	width: 150px;
+}
+
+#location {
+	width: 200px;
+    height: 60px;
+    position: relative;
+    top: -15px;
+    font-size: 20px;
+}
+
+.weather-box {height: 800px;}
+.section_title {position: absolute; width: 100%;}
+#categoryAxis {width: 2000px;}
+#categoryAxis svg {position: absolute; width: 120%; left:-90px;}

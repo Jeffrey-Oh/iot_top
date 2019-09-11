@@ -1,0 +1,98 @@
+/*====== visual ======*/
+#visual {
+	height: 400px;
+}
+
+#visual .bg {
+	height: 400px;
+	background-image: url(../../images/culture/imgCulture.jpg);
+	background-position: center center;
+}
+
+.btn-favorite, .btn-like {
+    background-color: white;
+    outline: none !important;
+}
+
+.btn-box {
+	margin-bottom: 100px;
+}
+
+.color2 {
+    color:#ff857c !important;
+}
+
+a:link {
+
+	text-decoration: none;
+}
+
+a:visited {	
+	text-decoration: none;
+}
+
+a:hover {
+	color: black;
+	text-decoration: none;
+}
+
+#datepicker {
+	padding-top: 16.5px;
+	padding-bottom: 16.5px;
+	color: #444;
+}
+
+.thumbnail {
+	position: relative;
+}
+
+.btn-box {
+	position: absolute;
+	top: 290px;
+	left: 460px;
+}
+
+.thumbnail-box {
+	height:320px !important; 
+	margin-right: 20px !important;
+	max-width:200px !important; 
+}
+
+.contents1 {
+	text-align: center;
+}
+
+.tbl_info {
+	margin-bottom : 100px;
+	font-size : 14px;
+}
+
+.contents1 {
+	margin-bottom : 100px;
+	font-size : 18px;
+}
+
+.listBtn {
+	text-align : center;
+}
+
+.goList {
+	margin-top: 15px;
+	width: 80px;
+	color: white;
+	font-weight: bold;
+}
+
+.rightLine {
+	width: 100px;
+}
+
+.imageBox {
+	margin: auto;
+}
+
+.contents1 {
+	font-size: 18px !important;
+	line-height: 3.2 !important;
+}
+

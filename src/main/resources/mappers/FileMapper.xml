@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- @fileName = DepartmentMapper.xml @author = 오태현 @lastUpdate = 2019-03-19 
+	@description = 학과 테이블 mapper -->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="FileMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="file"
+		type="project.spring.travel.model.File">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="fileId" column="fileId" />
+		<result property="orginName" column="orginName" />
+		<result property="fileDir" column="fileDir" />
+		<result property="fileName" column="fileName" />
+		<result property="contentType" column="contentType" />
+		<result property="fileSize" column="fileSize" />
+		<result property="regDate" column="regDate" />
+		<result property="editDate" column="editDate" />
+		<result property="boardId" column="boardId" />
+		
+	</resultMap>
+
+	<!-- 게시글에 속한 첨부파일의 정보를 저장한다. -->
+	<insert id="insertFile"
+		parameterType="project.spring.travel.model.File" useGeneratedKeys="true"
+		keyProperty="fileId">
+		INSERT INTO file (orginName, fileDir,
+		fileName,
+		contentType, fileSize, regDate, editDate, boardId) VALUES
+		(#{orginName}, #{fileDir}, #{fileName}, #{contentType},
+		#{fileSize},
+		now(), now(), #{boardId});
+	</insert>
+
+	<select id="selectFileList"
+		parameterType="project.spring.travel.model.File" resultMap="file">
+		SELECT
+		fileId, orginName, fileDir, fileName, contentType, fileSize, regDate,
+		editDate, boardId
+		FROM file
+		WHERE boardId=#{boardId}
+	</select>
+	
+	<!-- 하나의 파일을 조회한다. -->
+	<select id="selectFile" parameterType="project.spring.travel.model.File" resultMap="file">
+		SELECT fileDir, fileName FROM file WHERE fileId=#{fileId}
+	</select>
+
+	<!-- 하나의 파일을 삭제한다. -->
+	<delete id="deleteFile" parameterType="project.spring.travel.model.File">
+		DELETE FROM file WHERE fileId=#{fileId}
+	</delete>
+
+	<!-- 게시글에 속한 파일 전체 삭제 하기 -->
+	<delete id="deleteFileAll" parameterType="project.spring.travel.model.File">
+		DELETE FROM file WHERE boardId=#{boardId}
+	</delete>
+</mapper>

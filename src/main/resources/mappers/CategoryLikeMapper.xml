@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="CategoryLikeMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="cateogryLike" type="project.spring.travel.model.CategoryLike">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="categoryLikeId" column="categoryLikeId" />
+		<result property="memberId" column="memberId" />
+		<result property="boardId" column="boardId" />
+		<result property="servicearea_groupId" column="servicearea_groupId" />
+		<result property="cultureId" column="cultureId" />
+		<result property="tourId" column="tourId" />
+		<result property="regDate" column="regDate" />
+		<result property="editDate" column="editDate" />
+	</resultMap>
+	
+	<!-- 게시물 좋아요 + 1 -->
+	<insert id="addCategoryLike" parameterType="project.spring.travel.model.CategoryLike"
+		useGeneratedKeys="true" keyProperty="categoryLikeId">
+		INSERT INTO category_like (memberId, boardId, servicearea_groupId, cultureId, tourId, regDate, editDate)
+		VALUES (#{memberId}, #{boardId}, #{servicearea_groupId}, #{cultureId}, #{tourId}, now(), now());
+	</insert>
+	
+	<!-- 게시물 좋아요 - 1 -->
+	<delete id="deleteCategoryLike" parameterType="project.spring.travel.model.CategoryLike">
+		DELETE FROM category_like
+		WHERE memberId=#{memberId}
+		<choose>
+			<when test="boardId != 0">
+			AND boardId=#{boardId}
+			</when>
+			<when test="servicearea_groupId != 0">
+			AND servicearea_groupId=#{servicearea_groupId}
+			</when>
+			<when test="cultureId != 0">
+			AND cultureId=#{cultureId}
+			</when>
+			<otherwise>
+			AND tourId=#{tourId}
+			</otherwise>
+		</choose>
+	</delete>
+	
+	<!-- 특정 회원과의 게시물 좋아요 참조 관계 삭제하기 -->
+	<delete id="deleteCategoryLikeMemberOut" parameterType="project.spring.travel.model.CategoryLike">
+		DELETE FROM category_like
+		<where>
+			<choose>
+				<when test="boardId != 0">
+					AND boardId=#{boardId}
+				</when>
+				<when test="servicearea_groupId != 0">
+					AND servicearea_groupId=#{servicearea_groupId}
+				</when>
+				<when test="cultureId != 0">
+					AND cultureId=#{cultureId}
+				</when>
+				<otherwise>
+					AND tourId=#{tourId}
+				</otherwise>
+			</choose>
+		</where>
+	</delete>
+	
+	<!-- 특정 회원과의 게시물 좋아요 참조 해제하기 -->
+	<update id="updateCategoryLikeMemberOut" parameterType="project.spring.travel.model.CategoryLike">
+		UPDATE category_like
+		SET    memberId=NULL 
+		WHERE  memberId=#{memberId}
+	</update>
+	
+	<!-- 게시물 좋아요 현황 -->
+	<select id="selectCategoryLike" parameterType="project.spring.travel.model.CategoryLike" resultType="int">
+		SELECT count(*) FROM category_like
+		WHERE memberId=#{memberId}
+		<choose>
+			<when test="boardId != 0">
+				AND boardId=#{boardId}
+			</when>
+			<when test="servicearea_groupId != 0">
+				AND servicearea_groupId=#{servicearea_groupId}
+			</when>
+			<when test="cultureId != 0">
+				AND cultureId=#{cultureId}
+			</when>
+			<otherwise>
+				AND tourId=#{tourId}
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 등급제 처리를 위한 카운트 -->
+	<select id="CountByMemberId" parameterType="project.spring.travel.model.CategoryLike" resultType="int">
+		SELECT COUNT(memberId) FROM category_like
+		WHERE memberId=#{memberId}
+	</select>
+	
+	<!-- 이거만 다시 로직 생각할 것 -->
+	<select id="CountByUser" parameterType="project.spring.travel.model.CategoryLike" resultType="int">
+		SELECT COUNT(categoryLikeId)
+		FROM category_like
+		WHERE boardId IN (
+			SELECT boardId
+			FROM board_list
+			WHERE memberId=#{memberId}
+		)
+	</select>
+
+</mapper>

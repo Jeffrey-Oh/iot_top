@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="LiveMapper">
+
+	<resultMap id="live" type="project.spring.travel.model.Live">
+		<result property="airlineKorean" column="airlineKorean" />
+		<result property="airFln" column="airFln" />
+		<result property="airport" column="airport" />
+		<result property="boardingKor" column="boardingKor" />
+		<result property="city" column="city" />
+		<result property="arrivedKor" column="arrivedKor" />
+		<result property="std" column="std" />
+		<result property="etd" column="etd" />
+		<result property="rmkKor" column="rmkKor" />
+		<result property="groupId" column="groupId" />
+	</resultMap>
+
+	<!-- 일련번호 초기화 -->
+	<insert id="resetSql"
+		parameterType="project.spring.travel.model.Live"
+		useGeneratedKeys="true" keyProperty="liveId">
+		ALTER TABLE air_live
+		AUTO_INCREMENT=1
+	</insert>
+
+	<!-- 실시간항공 그룹별 추가 -->
+	<!-- <insert id="addLive"
+		parameterType="project.spring.travel.model.Live"
+		useGeneratedKeys="true" keyProperty="liveId">
+		INSERT INTO air_live
+		(airlineKorean, airFln, airport,
+		boardingKor, city, arrivedKor, std,
+		etd, rmkKor, groupId)
+		VALUES
+		(#{airlineKorean}, #{airFln}, #{airport},
+		#{boardingKor}, #{city},
+		#{arrivedKor}, #{std}, #{etd}, #{rmkKor},
+		#{groupId})
+	</insert> -->
+	
+	<!-- 실시간항공 추가 -->
+	<insert id="addLive"
+		parameterType="project.spring.travel.model.Live"
+		useGeneratedKeys="true" keyProperty="liveId">
+		INSERT INTO air_live
+		(airlineKorean, airFln, airport,
+		boardingKor, city, arrivedKor, std,
+		etd, rmkKor)
+		VALUES
+		(#{airlineKorean}, #{airFln}, #{airport},
+		#{boardingKor}, #{city},
+		#{arrivedKor}, #{std}, #{etd}, #{rmkKor})
+	</insert>
+
+	<!-- 실시간항공 전체 조회 -->
+	<select id="getLiveList"
+		parameterType="project.spring.travel.model.Live" resultMap="live">
+		SELECT liveId, airlineKorean, airFln, airport, boardingKor, city,
+		arrivedKor, std, etd, rmkKor<!-- , groupId -->
+		FROM air_live
+		<where>
+			<!-- 그룹별 조회 -->
+			<!-- <if test="groupId > 0">
+				groupId=#{groupId}
+			</if> -->
+			<!-- 실시간항공 출발지 & 도착지 결과 조회 -->
+			<if
+				test="(boardingKor != null and boardingKor != '') and (arrivedKor != null and arrivedKor != '')">
+				AND boardingKor like concat('%', #{boardingKor}, '%') and
+				arrivedKor like concat('%', #{arrivedKor}, '%')
+			</if>
+			<!-- 실시간항공 출발지 & 도착지 & 항공사 결과 조회 -->
+			<if test="airlineKorean != null and airlineKorean != ''">
+				AND airlineKorean like concat('%', #{airlineKorean}, '%')
+			</if>
+			<!-- 실시간항공 출발지 & 도착지 & 편명 결과 조회 -->
+			<!-- 실시간항공 출발지 & 도착지 & 항공사 & 편명 결과 조회 -->
+			<if test="airFln != null and airFln != ''">
+				AND airFln like concat('%', #{airFln}, '%')
+			</if>
+		</where>
+		ORDER BY std ASC
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+
+	<!-- 실시간항공 총 개수 -->
+	<select id="getCount"
+		parameterType="project.spring.travel.model.Live" resultType="int">
+		SELECT count(*) From air_live
+		<where>
+			<!-- groupId=#{groupId} -->
+			<!-- 실시간항공 출발지 + 도착지 개수 -->
+			<if
+				test="(boardingKor != null and boardingKor != '') and (arrivedKor != null and arrivedKor != '')">
+				AND boardingKor like concat('%', #{boardingKor}, '%') and
+				arrivedKor like concat('%', #{arrivedKor}, '%')
+			</if>
+			<!-- 실시간항공 출발지 + 도착지 + 항공사 개수 -->
+			<if test="airlineKorean != null and airlineKorean != ''">
+				AND airlineKorean like concat('%', #{airlineKorean}, '%')
+			</if>
+			<!-- 실시간항공 출발지 + 도착지 + 편명 개수 -->
+			<!-- 실시간항공 출발지 + 도착지 + 항공사 + 편명 개수 -->
+			<if test="airFln != null and airFln != ''">
+				AND airFln like concat('%', #{airFln}, '%')
+			</if>
+		</where>
+	</select>
+
+	<!-- 실시간 데이터 전체 삭제 -->
+	<delete id="deleteAll">
+		DELETE FROM air_live
+	</delete>
+
+</mapper>

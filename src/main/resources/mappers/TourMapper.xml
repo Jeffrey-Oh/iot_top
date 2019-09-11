@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TourMapper">
+
+	<resultMap id="Tour" type="project.spring.travel.model.TourModel1">
+		<result property="tourId" column="tourId" />
+		<result property="addr1" column="addr1" />
+		<result property="addr2" column="addr2" />
+		<result property="areacode" column="areacode" />
+		<result property="tuMapInfo" column="tuMapInfo" />
+		<result property="contentid" column="contentid" />
+		<result property="createdtime" column="createdtime" />
+		<result property="firstimage" column="firstimage" />
+		<result property="firstimage2" column="firstimage2" />
+		<result property="mlevel" column="mlevel" />
+		<result property="modifiedtime" column="modifiedtime" />
+		<result property="tuInformationText" column="tuInformationText" />
+		
+		<result property="tel" column="tel" />
+		<result property="title" column="title" />
+		<result property="tourLike" column="tourLike" />
+	</resultMap>
+
+	<!-- 투어 추가 -->
+	<insert id="addTour" parameterType="project.spring.travel.model.TourModel1" useGeneratedKeys="true" keyProperty="tourId">
+		INSERT INTO tour (addr1,
+		addr2, areacode, tuMapInfo, contentid,
+		createdtime, firstimage,
+		firstimage2, mlevel, modifiedtime,  tuInformationText,
+		tel, title, tourLike
+		) VALUES( #{addr1}, #{addr2},
+		#{areacode},
+		#{tuMapInfo}, #{contentid}, #{createdtime},
+		#{firstimage},
+		#{firstimage2}, #{mlevel}, #{modifiedtime},
+		#{tuInformationText}, #{tel}, #{title}
+		,#{tourLike} )
+	</insert>
+
+	<!-- 투어 전체목록 조회 -->
+	<select id="getTourList" parameterType="project.spring.travel.model.TourModel1" resultMap="Tour">
+		SELECT tourId, addr1, addr2, areacode,
+		tuMapInfo, contentid, createdtime, firstimage, firstimage2,
+		mlevel, modifiedtime, tuInformationText, title, tel, tourLike  FROM tour
+	</select>
+
+	<!-- 투어 상세 조회 -->
+	<select id="getTouritem" parameterType="project.spring.travel.model.TourModel1" resultMap="Tour">
+		SELECT tourId, addr1, addr2, areacode,
+		tuMapInfo, contentid, createdtime, firstimage, firstimage2,
+		mlevel, modifiedtime, tuInformationText, title, tel, tourLike  FROM tour where tourId=#{tourId}
+	</select>
+
+	<!-- 투어 업데이트  -->
+	<update id="updateTour" parameterType="project.spring.travel.model.TourModel1" >
+	Update tour
+	SET addr1=#{addr1}, addr2=#{addr2}, areacode=#{areacode}, tuMapInfo=#{tuMapInfo}, contentid=#{contentid},
+	createdtime=#{createdtime}, firstimage=#{firstimage}, firstimage2=#{firstimage2}, mlevel=#{mlevel},
+	modifiedtime=#{modifiedtime}, tuInformationText=#{tuInformationText}, tel=#{tel}, title=#{title},
+	tourLike=#{tourLike}
+	WHERE contentid=#{contentid}
+	</update>
+
+	<!-- 투어 뷰어 업데이트  -->
+	<update id="updateTourView" parameterType="project.spring.travel.model.TourModel1" >
+	Update tour
+	SET addr1=#{addr1}, addr2=#{addr2}, areacode=#{areacode}, tuMapInfo=#{tuMapInfo}, contentid=#{contentid},
+	createdtime=#{createdtime}, firstimage=#{firstimage}, firstimage2=#{firstimage2}, mlevel=#{mlevel},
+	modifiedtime=#{modifiedtime}, tuInformationText=#{tuInformationText}, tel=#{tel}, title=#{title},
+	tourLike=#{tourLike}, tourId=#{tourId}
+	WHERE areacode=#{areacode}
+	</update>
+
+
+	<!-- 투어 전체목록 뷰어 조회 -->
+	<select id="getTourViewList" parameterType="project.spring.travel.model.TourModel1" resultMap="Tour">
+		SELECT tourId, addr1, addr2, areacode,
+		tuMapInfo, contentid, createdtime, firstimage, firstimage2,
+		mlevel, modifiedtime, tuInformationText, title, tel, tourLike  FROM tour where areacode=#{areacode}
+	</select>
+
+		<!-- 투어 MainView목록 조회 -->
+	<select id="getTourMainList" parameterType="project.spring.travel.model.TourModel1" resultMap="Tour">
+		SELECT tourId, addr1, addr2, areacode,
+		tuMapInfo, contentid, createdtime, firstimage, firstimage2,
+		mlevel, modifiedtime, tuInformationText, title, tel, tourLike  FROM tour where areacode=1
+	</select>
+  
+  	 	 <!-- 투어 Main View 맵퍼  -->
+	<update id="UpTourView" parameterType="project.spring.travel.model.TourModel1">
+		Update tour
+		SET  tuInformationText=#{tuInformationText}
+		WHERE contentid=#{contentid}
+	</update>
+	
+	<select id="getTourMaininfo" parameterType="project.spring.travel.model.TourModel1" resultMap="Tour">
+		SELECT  tuInformationText FROM tour WHERE contentid=#{contentid}
+	</select>
+	
+	
+
+</mapper>

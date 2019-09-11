@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration
+	xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Appenders -->
+	<appender name="console"
+		class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- 날짜별 로그 파일 생성 -->
+	<appender name="rollingFile"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="WARN" />
+		<param name="File" value="/home/student/toptravel/logs/log.log" />
+		<param name="Append" value="true" /> <!-- param name="MaxFileSize" value="100MB"/ --> <!-- param name="MaxBackupIndex" value="2"></param -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %p [%C{10}] %m %n" />
+		</layout>
+	</appender>
+	
+	<!-- 날짜별 로그 파일 생성(커뮤니티) -->
+	<appender name="commFile"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="WARN" />
+		<param name="File" value="/home/student/toptravel/logs/commlog.log" />
+		<param name="Append" value="true" /> <!-- param name="MaxFileSize" value="100MB"/ --> <!-- param name="MaxBackupIndex" value="2"></param -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %p [%C{10}] %m %n" />
+		</layout>
+	</appender>
+	
+	<!-- 날짜별 로그 파일 생성(멤버십) -->
+	<appender name="memberFile"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="WARN" />
+		<param name="File" value="/home/student/toptravel/logs/memberlog.log" />
+		<param name="Append" value="true" /> <!-- param name="MaxFileSize" value="100MB"/ --> <!-- param name="MaxBackupIndex" value="2"></param -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %p [%C{10}] %m %n" />
+		</layout>
+	</appender>
+	
+	<!-- 날짜별 로그 파일 생성(휴게소) -->
+	<appender name="serviceareaFile"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="WARN" />
+		<param name="File" value="/home/student/toptravel/logs/servicearealog.log" />
+		<param name="Append" value="true" /> <!-- param name="MaxFileSize" value="100MB"/ --> <!-- param name="MaxBackupIndex" value="2"></param -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %p [%C{10}] %m %n" />
+		</layout>
+	</appender>
+	
+	<!-- 날짜별 로그 파일 생성(문화) -->
+	<appender name="cultureFile"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="WARN" />
+		<param name="File" value="/home/student/toptravel/logs/culturelog.log" />
+		<param name="Append" value="true" /> <!-- param name="MaxFileSize" value="100MB"/ --> <!-- param name="MaxBackupIndex" value="2"></param -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %p [%C{10}] %m %n" />
+		</layout>
+	</appender>
+	
+	<!-- 날짜별 로그 파일 생성(메인) -->
+	<appender name="mainFile"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="WARN" />
+		<param name="File" value="/home/student/toptravel/logs/mainlog.log" />
+		<param name="Append" value="true" /> <!-- param name="MaxFileSize" value="100MB"/ --> <!-- param name="MaxBackupIndex" value="2"></param -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %p [%C{10}] %m %n" />
+		</layout>
+	</appender>
+	
+	<!-- 날짜별 로그 파일 생성(항공) -->
+	<appender name="airFile"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="WARN" />
+		<param name="File" value="/home/student/toptravel/logs/airlog.log" />
+		<!-- <param name="File" value="/home/student/toptravel/logs/airlog.log" /> -->
+		<param name="Append" value="true" /> <!-- param name="MaxFileSize" value="100MB"/ --> <!-- param name="MaxBackupIndex" value="2"></param -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %p [%C{10}] %m %n" />
+		</layout>
+	</appender>
+	
+	<!-- 날짜별 로그 파일 생성(에러만) -->
+	<appender name="errFile"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="ERROR" />
+		<param name="File" value="/home/student/toptravel/logs/errorLog.log" />
+		<param name="Append" value="true" /> <!-- param name="MaxFileSize" value="100MB"/ --> <!-- param name="MaxBackupIndex" value="2"></param -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %5p [%C{1}] %m %n" />
+		</layout>
+	</appender>
+
+	<!-- Application Loggers -->
+	<logger name="project.spring.travel">
+		<level value="warn" />
+	</logger>
+
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.springframework.beans">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.springframework.context">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="warn" />
+	</logger>
+
+	<logger name="project.spring.travel.controller.community">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="project.spring.travel.controller.member">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="project.spring.travel.controller.servicearea">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="project.spring.travel.controller.culture">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="project.spring.travel.controller">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="project.spring.travel.controller.air">
+		<level value="warn" />
+	</logger>
+	
+	<!-- Root Logger -->
+	<root>
+		<!-- ===== Log4 로그 표시 수준 변경 ===== - 웹 페이지가 실행되는 동안 SQL구문이 로그에 출력되도록 하기 
+			위해서는 로그의 표시 수준을 debug로 변경한다. - 로그는 높은 수준으로 설정할 수록 출력되는 수준에 대한 범위가 넓어진다. - 
+			로그 표시 수준 TRACE (모든 로그 표시 > DEBUG > INFO > WARN > ERROR > FATAL (로그 표시 안함) -->
+		<priority value="warn" />
+		<appender-ref ref="console" />
+		<appender-ref ref="rollingFile" />
+		<appender-ref ref="commFile" />
+		<appender-ref ref="memberFile" />
+		<appender-ref ref="serviceareaFile" />
+		<appender-ref ref="cultureFile" />
+		<appender-ref ref="mainFile" />
+		<appender-ref ref="airFile" />
+		<appender-ref ref="errFile" />
+	</root>
+
+</log4j:configuration>

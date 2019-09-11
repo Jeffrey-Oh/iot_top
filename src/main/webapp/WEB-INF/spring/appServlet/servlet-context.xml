@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+	
+	<!-- Linux Crontab 같이 스케줄러 등록하는 것 -->
+	<task:annotation-driven />
+	
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+    <!--
+        ===== assets 디렉토리의 경로를 웹 URL로 노출하기 위한 설정 =====
+        - Spring 프렘임워크에는 WebContext 디렉토리가 없기 때문에
+            웹 URL로 직접 노출되기 위한 방법이 없다.
+        - assets 디렉토리를 http:/localhost:8080/프로젝트명/assets
+            형식으로 노출시키기 위해서는
+            servlet-context.xml 파일에 연결 규칙을 명시해야 한다.
+            - mapping : URL 에 노출될 규칙을 명시한다.
+            - location : mapping 규칙에 대응될 경로를 명시한다.
+            - 즉 URL에 명시하는 /assets 디렉토리 내의 모든 경로 (**)는
+                /assets/ 폴더 안에서 사용하게 된다.
+    -->
+    <!-- CSS, JS, IMAGE, Plugin 폴더설정 -->
+    <resources mapping="/assets/**" location="/assets/" />
+    <resources mapping="/images/**" location="/images/" />
+    <resources mapping="/plugins/**" location="/plugins/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<context:component-scan base-package="project.spring.travel.cron" />
+	<context:component-scan base-package="project.spring.travel.controller" />
+	<context:component-scan base-package="project.spring.travel.controller.air" />
+	<context:component-scan base-package="project.spring.travel.controller.community" />
+	<context:component-scan base-package="project.spring.travel.controller.culture" />
+	<context:component-scan base-package="project.spring.travel.controller.customer" />
+	<context:component-scan base-package="project.spring.travel.controller.member" />
+	<context:component-scan base-package="project.spring.travel.controller.mypage" />
+	<context:component-scan base-package="project.spring.travel.controller.servicearea" />
+	<context:component-scan base-package="project.spring.travel.controller.tour" />
+	<context:component-scan base-package="project.spring.travel.controller.weather" />
+    
+    <!--
+        ===== Service 계층의 객체를 Controller에 주입하기 위한 설정 =====
+        - servlet-context.xml에 Spring Framework에게 Controller가 존재하는 패키지와
+            Service 구현체가 존재하는 패키지를 알려주는 구문을 명시해야 한다.
+    -->
+    <context:component-scan base-package="project.spring.travel.service.impl" />
+	
+</beans:beans>

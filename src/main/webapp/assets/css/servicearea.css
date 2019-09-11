@@ -1,0 +1,391 @@
+/* ====== visual ====== */
+#visual .bg {
+    background-image: url(../../images/servicearea/bg.jpg);
+    background-position: center 41%;
+}
+
+/* ====== search bar ====== */
+#searchbar {
+    margin-top: -85px;
+}
+#searchbar .form-control {
+    height: 40px;
+    padding: 0 15px;
+    font-size: 14px;
+}
+#searchbar .btn {
+    line-height: 26px;
+    font-size: 14px;
+}
+
+/** ===== common ===== */
+.font26 {
+    font-size: 26px;
+}
+.font30 {
+    font-size: 30px;
+}
+
+/** ====== contents ====== */
+.nav-justified {
+    margin: 0 auto;
+    width: 50%;
+}
+.nav-pills>li>a, .nav-pills>li>a:hover, .nav-pills>li>a:focus {
+    padding: 15px 15px;
+    font-size: 14px;
+    color: #333;
+    background-color: #e6e6e6;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+    color: #fff;
+    background-color: #49738c;
+}
+
+/** ===== servicearea_index ===== */
+.servicearea_nav {
+    margin: 0 13% 80px 13%;
+}
+.servicearea_nav li {
+    position: relative;
+    margin: 1%;
+    /* 각 메뉴 항목을 3개씩 나열 */
+    width: 31.33%;
+    height: 0;
+    padding-bottom: 31.33%;
+}
+.servicearea_nav li a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 18px;
+    color: #061324;
+    text-decoration: none;
+    padding-top: 70%;
+    border-radius: 30px;
+    background-position: center 20%;
+    background-repeat: no-repeat;
+    transition: all 0.4s ease;
+}
+.servicearea_nav li:nth-child(odd) a {
+    background-color: #c8dde9;
+}
+.servicearea_nav li:nth-child(even) a {
+    background-color: #a8c0cf;
+}
+.servicearea_nav li a:hover {
+    padding-top: 75%;
+    color: #fff;
+    background-color: #db5756;
+}
+.servicearea_nav li.line a {
+    background-image: url(../../images/servicearea/line.png);
+    background-size: 40% auto;
+}
+.servicearea_nav li.line a:hover {
+    background-size: 55% auto;
+}
+.servicearea_nav li.radar a {
+    background-image: url(../../images/servicearea/radar.png);
+    background-size: 45% auto;
+}
+.servicearea_nav li.radar a:hover {
+    background-size: 55% auto;
+}
+.servicearea_nav li.route a {
+    background-image: url(../../images/servicearea/route.png);
+    background-size: 45% auto;
+}
+.servicearea_nav li.route a:hover {
+    background-size: 55% auto;
+}
+.servicearea_nav li.oil a {
+    background-image: url(../../images/servicearea/oil.png);
+    background-size: 45% auto;
+}
+.servicearea_nav li.oil a:hover {
+    background-size: 55% auto;
+}
+.servicearea_nav li.food a {
+    background-image: url(../../images/servicearea/food.png);
+    background-size: 50% auto;
+}
+.servicearea_nav li.food a:hover {
+    background-size: 60% auto;
+}
+.servicearea_nav li.theme a {
+    background-image: url(../../images/servicearea/theme.png);
+    background-size: 55% auto;
+}
+.servicearea_nav li.theme a:hover {
+    background-size: 65% auto;
+}
+
+/** ===== line_title ===== **/
+.line_title .icon img {
+    vertical-align: inherit;
+    margin-right: 6px;
+}
+.line_title .name {
+    font-size: 30px;
+}
+
+/** ===== line_list =====*/
+.line_list {
+    margin: 36px 0 20px 0;
+    width: calc(100% + 4px);
+}
+.line_list li {
+    position: relative;
+    float: left;
+    margin: 4px 4px 0 0;
+    width: calc(25% - 4px);
+    overflow: hidden;
+}
+.line_list li a {
+    position: relative;
+    display: block;
+    padding: 16px 30px 16px 40px;
+    overflow: hidden;
+    font-size: 18px;
+    font-weight:;
+    color: #061324;
+    text-decoration: none;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+.line_list li a:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    margin-top: -5px;
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 100%;
+}
+.line_list li img {
+    display: block;
+    margin-bottom: 5px;
+    width: 27px;
+}
+.line_list li a:hover {
+    color: #db5756;
+    border-color: #db5756;
+}
+
+/** ===== table =====  */
+.table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+    vertical-align: middle;
+    padding: 13px 20px;
+    font-size: 14px;
+    color: #666;
+}
+.table-bordered, .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
+    border-left: 0;
+    border-right: 0;
+}
+.table>thead>tr>th,
+.table>tbody>tr>th {
+    font-weight: normal;
+    color: #061324;
+}
+.table>thead>tr>th {
+    padding: 15px 10px;
+    line-height: 25px;
+    font-size: 16px;
+    background-color: #eaeaea;
+    border-bottom: 1px solid #ddd;
+}
+.table>tbody>tr>th {
+    background-color: #f1f1f1;
+}
+.table-hover>tbody>tr:hover {
+    background-color: #f1f1f1;
+}
+.table {
+    margin-bottom: 20px;
+}
+.table img {
+    vertical-align: middle;
+}
+.table .icon {
+    margin-right: 8px;
+}
+.table a {
+    color: #49738c;
+}
+.table-hover>tbody>tr:hover td a {
+    color: #db5756;
+    text-decoration: none;
+}
+.table.text-center th, .table.text-center td {
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+.table-fixed {
+    table-layout: fixed;
+}
+.table .menu {
+    font-size: 16px;
+    display: block;
+}
+
+/** ===== servicearea_view_item ===== */
+.view_title {
+    line-height: 35px;
+}
+.view_title h3 {
+    margin-right: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.view_title button {
+    vertical-align: middle;
+}
+.btn-favorite, .btn-like {
+    font-size: 14px;
+    color: #666;
+    background-color: white;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.btn-like {
+    padding-top: 8px;
+}
+.btn-favorite i, .btn-like i {
+    font-size: 16px;
+}
+.btn-favorite:hover i {
+    color: rgb(255, 170, 0);
+}
+.disinb {
+    display: inline-block;
+}
+.link-box {
+    display: inline-block;
+}
+.link-box li a:link {
+    color: #777;
+}
+.link-box li:nth-child(1) {
+    margin-right: 10px;
+}
+.link-box li:nth-child(2) img {
+    vertical-align: baseline;
+}
+.link-box li:nth-child(2) img:active {
+    margin-top: 3px;
+}
+.link-copy {
+    cursor: pointer;
+}
+.foodinfo {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+.foodinfo .image {
+    display: table-cell;
+    width: 20%;
+    padding: 10px;
+}
+.foodinfo .image img {
+    width: 100%;
+}
+.foodinfo .text {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 20px;
+    line-height: 28px;
+}
+.foodinfo .name {
+    font-size: 16px;
+    font-weight: bold;
+}
+.foodinfo .price {
+    font-size: 14px;
+}
+.food_badge {
+    margin-bottom: 5px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 6px;
+    line-height: 17px;
+    font-size: 11px;
+    color: #fff;
+    border-radius: 15px;
+}
+.food_badge.recommend {
+    background-color: seagreen;
+}
+.food_badge.best {
+    background-color: crimson;
+}
+.food_badge.premium {
+    background-color: purple;
+}
+.food_badge.season_s {
+    background-color: dodgerblue;
+}
+.food_badge.season_w {
+    background-color: sienna;
+}
+
+/** ===== servicearea_route_map (Daum Map Api) ===== */
+.dot {
+    overflow:hidden;
+    float:left;
+    width:12px;
+    height:12px;
+    background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mini_circle.png');
+}
+.dotOverlay {
+    position:relative;
+    bottom:10px;
+    border-radius:6px;
+    border: 1px solid #ccc;
+    border-bottom:2px solid #ddd;
+    float:left;
+    font-size:12px;
+    padding:5px;
+    background:#fff;
+}
+.dotOverlay:nth-of-type(n) {
+    border:0;
+    box-shadow:0px 1px 2px #888;
+}
+.number {
+    font-weight:bold;
+    color:#ee6152;
+}
+.dotOverlay:after {
+    content:'';
+    position:absolute;
+    margin-left:-6px;
+    left:50%;
+    bottom:-8px;
+    width:11px;
+    height:8px;
+    background:url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white_small.png')
+}
+.distanceInfo {
+    position:relative;
+    top:5px;left:5px;
+    list-style:none;
+    margin:0;
+}
+.distanceInfo .label {
+    display:inline-block;
+    width:50px;
+}
+.distanceInfo:after {
+    content:none;
+}

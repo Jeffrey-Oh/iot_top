@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	
+	<!--
+     * @fileName    : root-context.xml
+     * @author      : 홍준성
+     * @description : 객체 주입 설정파일
+     * @lastDate    : 2019. 4. 18.
+    -->
+    
+    <!--
+        ===== 메일 서버 인증을 위한 객체의 AOP 설정 =====
+        - (1) JavaMailSender를 상속받는 JavaMailSenderImpl의 객체를 설정하고,
+        - (2) MailHelper에게 생성자 파라미터로 전달한다.
+    -->
+    <!-- 메일발송 라이브러리 객체주입 -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="465" />
+        <property name="username" value="ghdwnstjd13@gmail.com" />
+        <property name="password" value="ezbwezqmlkmsihrt" />
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.debug">true</prop>
+                <prop key="mail.smtp.socketFactory.port">465</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+                <prop key="mail.smtp.socketFactory.fallback">false</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <!--
+        ===== 데이터베이스 접속 객체 주입 설정 =====
+        - JDBC를 활용한 데이터베이스 접속은
+            root-context.xml에 명시된 정보에 의해 자동화 된다.
+    -->
+    <!-- MySQL 연결 설정 -->
+    <bean id="dataSource"
+            class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+        <property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/toptravel?characterEncoding=UTF8"/>
+        <!-- <property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/toptravel?characterEncoding=UTF8&amp;useSSL=false"/> -->
+
+        <property name="username" value="toptravel" />
+        <property name="password" value="123qwe!@#" />
+
+        <!-- <property name="username" value="root" />
+        <property name="password" value="root" /> -->
+    </bean>
+    <!--
+        ===== Oracle 데이터베이스 접속을 위한 접속 문자열 설정 =====
+        - MySQL과 Oracle은 접속에 사용되는 URL 정의만 다르다.
+        - 접속 처리는 MyBatis가 수행하므로 URL 설정 변경만으로 충분하다.
+            - jdbc:log4jdbc:oracle:thin@서버주소:포트번호:데이터베이스명
+    -->
+    <!-- Oracle 연결 설정 -->
+    <!-- <bean id="dataSource"
+            class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+        <property name="url" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"/>
+        <property name="username" value="hr" />
+        <property name="password" value="hr" />
+    </bean> -->
+    
+    <!--
+        ===== MyBatis 접속 객체 주입 설정 =====
+        - JSP 프로젝트에서 작성하던 config.xml 파일과
+            MyBatisConnectionFactory 클래스를 대신한다.
+    -->
+    <!-- MyBatis SqlSessionFactory 객체 설정 : config.xml의 역할 수행 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- DB접속 정보를 미리 정의해둔 MySQL JDBC의 dataSource로 처리한다. -->
+        <property name="dataSource" ref="dataSource" />
+        <!--
+            ===== Mapper XML 경로 설정하기 =====
+            - JSP 구현에서는
+                모든 Mapper 파일의 경로를 config.xml에 일일히 명시해야 했지만,
+                Spring에서는 Mapper 파일의 이름 패턴만을 명시해서
+                모든 Mapper가 자동으로 참조되도록 처리할 수 있다.
+        -->
+        <!-- Mapper의 경로를 설정한다. -->
+        <property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml" />
+    </bean>
+    
+    <!-- sqlSession 객체 생성 -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+            destroy-method="clearCache">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <!--
+        ===== Helper 패키지 내의 객체들에 대한 의존성 주입 설정 =====
+        - 이 곳에서 명시된 클래스들에 대한 객체는 컨트롤러에서 자동 할당된다.
+    -->
+    <!-- Helper 패키지 객체 주입 -->
+    <bean id="web" class="project.spring.helper.WebHelper" scope="singleton" />
+    <bean id="upload" class="project.spring.helper.UploadHelper" scope="singleton">
+        <!--
+            ===== UploadHelper에서 필요한 정보를 root-context.xml을 통해 주입받기 =====
+            - UploadHelper에서는 업로드 파일이 저장될 경로를 상수로 정의하고 있다.
+            - 이 값은 프로그램 실행환경이 변경될 때마다 변경되어야 하기 때문에,
+                프로그램으로 하여금 재컴파일을 요구하게 된다.
+            - root-context.xml에 정의한 값은
+                수정되어도 재 컴파일이 요구되지 않기 때문에
+                프로그램의 유지보수에 유리하다.
+        -->
+        <constructor-arg value="/home/student/toptravel/upload" />
+    </bean>
+    <bean id="mail" class="project.spring.helper.MailHelper" scope="singleton">
+        <constructor-arg ref="mailSender" /><!-- 생성자 파라미터로 mailSender 객체를 전달한다. -->
+    </bean>
+    <bean id="page" class="project.spring.helper.PageHelper" scope="singleton" />
+    <bean id="regex" class="project.spring.helper.RegexHelper" scope="singleton" />
+    <bean id="util" class="project.spring.helper.Util" scope="singleton" />
+    <bean id="jsonHelper" class="project.spring.helper.JsonHelper" scope="singleton" />
+    <bean id="httpHelper" class="project.spring.helper.HttpHelper" scope="singleton" />
+    <bean id="xmltoJson" class="project.spring.helper.XmltoJsonHelper" scope="singleton" />
+    <bean id="dbHelper" class="project.spring.helper.DBHelper" scope="singleton" />
+    <bean id="fileHelper" class="project.spring.helper.FileHelper" scope="singleton" />
+    <bean id="gsonHelper" class="project.spring.helper.GsonHelper" scope="singleton" />
+    
+    <!--
+        ===== Helper 패키지 이외에 추가적으로 생성한 싱글톤 객체에 대한 주입 설정 =====
+        - root-context.xml 파일에 싱글톤 객체에 대한 설정을 추가한다.
+        - 이후 컨트롤러 클래스에서는 @Autowired 옵션을 사용하여 객체를 주입받을 수 있게 된다.
+    -->
+    <!-- 싱글톤 객체의 생성 -->
+    <bean id="bbsCommon" class="project.spring.travel.controller.community.BBSCommon" scope="singleton" />
+    
+</beans>

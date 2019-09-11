@@ -1,0 +1,49 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : MemberOutReasonMapper.xml
+    @author      : 홍준성
+    @description : member_out_reason 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-04-09
+-->
+<!-- config.xml 에서 명시하는 mapper 파일에는 수행해야 할
+	SQL 구문들이 작성되게 된다.
+	project.spring.travel.dao.mapper 패키지를 생성하고 그 안에
+	MemberOutReasonMapper.xml 파일을 추가해야 한다.
+	Mapper XML 파일은 일반적으로 테이블 하나당 하나씩 생성된다.
+	
+	Mapper XML의 역할
+	JavaBeans와 DB Table의 Mapping 및 수행해야 하는 SQL문 정의
+	SQL 수행에 필요한 값을 Beans 객체에서 꺼내거나,
+	SQL결과를 Benas에 저장한다.
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "MemberOutReasonMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "memberOutReason" type = "project.spring.travel.model.MemberOutReason">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="memberOutReasonId" column="memberOutReasonId"/>
+        <result property="reason" column="reason"/>
+        <result property="reasonEtc" column="reasonEtc"/>
+        <result property="regDate" column="regDate"/>
+        <result property="editDate" column="editDate"/>
+    </resultMap>
+    
+    <!-- 탈퇴사유 저장 기능을 담당하는 SQL 구문 정의 -->
+    <insert id="insertMemberOutReason"
+            parameterType="project.spring.travel.model.MemberOutReason"
+            useGeneratedKeys="true"
+            keyProperty="memberOutReasonId">
+        Insert Into member_out_reason (
+            reason, reasonEtc, regDate 
+        ) Values (
+            #{reason}, #{reasonEtc}, now()
+        )
+    </insert>
+
+</mapper>

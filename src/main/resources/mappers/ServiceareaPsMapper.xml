@@ -1,0 +1,108 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : ServiceareaPsMapper.xml
+    @author      : 홍준성
+    @description : 휴게소 편의시설 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-05-02
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "ServiceareaPsMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "serviceareaPs" type = "project.spring.travel.model.ServiceareaPs">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="servicearea_psId" column="servicearea_psId"/>
+        <result property="stdRestCd" column="stdRestCd"/>
+        <result property="stdRestNm" column="stdRestNm"/>
+        <result property="psCode" column="psCode"/>
+        <result property="psName" column="psName"/>
+        <result property="psDesc" column="psDesc"/>
+        <result property="stime" column="stime"/>
+        <result property="etime" column="etime"/>
+        <result property="redDtime" column="redDtime"/>
+        <result property="lsttmAltrDttm" column="lsttmAltrDttm"/>
+        <result property="regDate" column="regDate"/>
+        <result property="editDate" column="editDate"/>
+    </resultMap>
+
+    <!-- ===== 휴게소 편의시설 정보 업데이트 ===== -->
+    <update id = "updateServiceareaPsByStdRestCdAndStdRestNmAndPsCodeAndPsDesc"
+            parameterType = "project.spring.travel.model.ServiceareaPs">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update servicearea_ps 
+        Set 
+            stdRestCd = #{stdRestCd}, 
+            stdRestNm = #{stdRestNm}, 
+            psCode = #{psCode}, 
+            psName = #{psName}, 
+            psDesc = #{psDesc}, 
+            stime = #{stime}, 
+            etime = #{etime}, 
+            redDtime = #{redDtime}, 
+            lsttmAltrDttm = #{lsttmAltrDttm}, 
+            editDate = now()  
+        Where stdRestCd = #{stdRestCd} And stdRestNm = #{stdRestNm} And psCode = #{psCode} And psDesc = #{psDesc}
+    </update>
+    
+    <!-- ===== 휴게소 편의시설 정보 저장 ===== -->
+    <insert id = "insertServiceareaPs"
+            parameterType = "project.spring.travel.model.ServiceareaPs"
+            useGeneratedKeys = "true"
+            keyProperty = "servicearea_psId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Insert Into servicearea_ps (
+            stdRestCd, stdRestNm, psCode, psName, psDesc, 
+            stime, etime, redDtime, lsttmAltrDttm, regDate
+        ) Values (
+            #{stdRestCd}, #{stdRestNm}, #{psCode}, #{psName}, #{psDesc}, 
+            #{stime}, #{etime}, #{redDtime}, #{lsttmAltrDttm}, now()
+        )
+    </insert>
+    
+    <!-- ===== 휴게소 편의시설 정보 조회 ===== -->
+    <select id = "selectServiceareaPs"
+            parameterType = "project.spring.travel.model.ServiceareaPs"
+            resultMap = "serviceareaPs">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_psId, stdRestCd, stdRestNm, psCode, psName, psDesc, 
+            stime, etime, redDtime, lsttmAltrDttm, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_ps 
+        Where servicearea_psId = #{servicearea_psId}
+    </select>
+    
+    <!-- ===== 휴게소 편의시설 정보 다중 조회 ===== -->
+    <select id = "selectServiceareaPsList"
+            parameterType = "project.spring.travel.model.ServiceareaPs"
+            resultMap = "serviceareaPs">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_psId, stdRestCd, stdRestNm, psCode, psName, psDesc, 
+            stime, etime, redDtime, lsttmAltrDttm, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_ps 
+    </select>
+    
+    <!-- ===== 휴게소 편의시설 목록을 휴게소 이름으로 조회 ===== -->
+    <select id = "selectServiceareaPsListByStdRestNm"
+            parameterType = "project.spring.travel.model.ServiceareaPs"
+            resultMap = "serviceareaPs">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_psId, stdRestCd, stdRestNm, psCode, psName, psDesc, 
+            stime, etime, redDtime, lsttmAltrDttm, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_ps 
+        Where stdRestNm Like Concat('%', #{stdRestNm}, '%')
+    </select>
+    
+</mapper>

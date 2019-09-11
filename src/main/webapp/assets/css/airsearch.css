@@ -1,0 +1,289 @@
+/*====== visual ======*/
+#visual {
+	height: 600px !important;
+}
+
+#visual .bg {
+	height: 600px !important;
+    background-image: url(../../images/air/search.jpg);
+}
+
+.section_subtitle {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #72728c;
+    line-height: 0.75;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+.section_title {
+    color: #181818;
+    margin-top: 26px;
+}
+
+.airLS-contents {
+	padding: 60px 0;
+}
+
+/*********************************
+3. Home Search
+*********************************/
+
+.home_search {
+    width: 100%;
+    height: 0;
+    background: #FFFFFF;
+    z-index: 1;
+}
+
+.home_search_container {
+    position: absolute;
+    top: -70px;
+    width: calc(100% + 122px);
+    left: -66px;
+    padding-top: 47px;
+    padding-left: 61px;
+    padding-right: 61px;
+    padding-bottom: 59px;
+    background: rgba(255, 255, 255, 0.26);
+    border-radius: 12px;
+}
+
+.home_search_title {
+    width: auto;
+    height: 55px;
+    background: #FFFFFF;
+    margin-left: auto;
+    margin-right: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    line-height: 55px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    color: #2e2e2e;
+    font-weight: 400;
+    text-align: center;
+    display: inline-block;
+}
+
+.home_search_title > label {
+    font-size: x-large;
+    padding: 15px;
+    width: 125px;
+    line-height: 30px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: white;
+    color: #777;
+}
+
+.home_search_title input:nth-of-type(1),
+.home_search_title input:nth-of-type(1)~div:nth-of-type(1),
+.home_search_title input:nth-of-type(2),
+.home_search_title input:nth-of-type(2)~div:nth-of-type(2) {
+    display: none;
+}
+
+.home_search_title input:nth-of-type(1):checked~label:nth-of-type(1),
+.home_search_title > label[for=round]:hover {
+    background-color: lightskyblue;
+    color: #fff;
+    cursor: pointer;
+}
+
+.home_search_title input:nth-of-type(2):checked~label:nth-of-type(2),
+.home_search_title > label[for=oneway]:hover {
+    background-color: lightseagreen;
+    color: #fff;
+    cursor: pointer;
+}
+
+/*********************************
+4. Destinations
+*********************************/
+
+.datepicker-container {
+	font-family: "Helvetica", "나눔고딕", "맑은고딕";
+	color: black;
+}
+
+.banner img {
+	position: absolute;
+    left: 50%;
+    top: -610px;
+    bottom: 200px;
+    margin-left: 600px;
+    width: 250px;
+    height: 500px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.bg-text {
+	position: relative;
+    top: 230px;
+    z-index: 490;
+    font-size: 100px;
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    color: white;
+}
+
+.tech-slideshow {
+    height: 223px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
+.tech-slideshow > div {
+    height: 223px;
+    width: 3960px;
+    background: url(../../images/air/carousel_body.png);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translate3d(0, 0, 0);
+}
+
+.tech-slideshow .mover-1 {
+    animation: spin 30s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: translateX(-50.48%);
+    }
+}
+
+.ticket-list {
+    width: 900px;
+    margin: auto;
+    box-shadow: none;
+}
+
+.ticket-list-item {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.logo-img span:nth-child(1) {
+    position: relative;
+    top: 25px;
+    left: 30px;
+}
+
+.logo-img span:nth-child(2) {
+	position: relative;
+    top: 65px;
+    left: 32px;
+}
+
+.ticket-text-box {
+    height: 160px;
+    border-right: 3px dotted #d5d5d5;
+}
+
+.ticket-text-box div {
+    height: 80px;
+}
+
+.status-left span {
+    padding: 10px;
+    font-size: 14px;
+    display: block;
+}
+
+.status-left span:nth-child(1) {
+    font-size: 18px;
+}
+
+.status-center span:nth-child(1) {
+    display: block;
+    padding: 3px 0;
+    font-size: 14px;
+    position: relative;
+    top: 10px;
+}
+
+.status-center span:nth-child(2) {
+    display: block;
+    font-size: 14px;
+}
+
+.status-center span hr {
+    width: 90px;
+    display: inline-block;
+    border: 1px solid #bbb;
+}
+
+.status-center span i {
+    transform: rotateZ(90deg);
+    font-size: 16px;
+    position: relative;
+    top: 8px;
+}
+
+.via-text {
+    display: block;
+    font-size: 14px;
+    position: relative;
+    top: -5px;
+    width: 80px;
+    margin: auto;
+}
+
+.status-right span {
+    padding: 10px;
+    font-size: 14px;
+    display: block;
+}
+
+.status-right span:nth-child(1) {
+    font-size: 18px;
+}
+
+.ticket-info-box {
+    width: 130px;
+    height: 120px;
+    margin: 20px auto;
+}
+
+.ticket-info-box span:nth-child(1) {
+    font-size: 15px;
+    color: #aaa;
+}
+
+.ticket-info-box span:nth-child(2) {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.btn-ticket-info {
+    color: white;
+    width: 100px;
+    height: 40px;
+    margin-top: 20px;
+    border-radius: 20px !important;
+}
+
+.btn-ticket-info:hover {
+    color: white !important;
+}
+
+.btn-ticket-info:link, .btn-ticket-info:visited {
+    color: white !important;
+}
+
+.pagination {
+	display: inline-block !important;
+	position: relative;
+	top: 45px;
+}

@@ -1,0 +1,71 @@
+.ctg li {
+    padding: 10px;
+}
+
+.ctg li:first-child {
+    padding-top: 0;
+}
+
+.ctg a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ctg a:link, .ctg a:visited {
+    color: black;
+}
+
+.board-box {
+	padding: 0;
+}
+
+.board-box table {
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+.board-box table td {
+    border: 1px solid #ccc;
+}
+
+.board-box table td:first-child {
+    text-align: center;
+    width: 150px;
+    padding: 10px 0;
+    vertical-align: middle;
+}
+
+.category {
+	outline: none;
+	width: auto;
+}
+
+.title {
+	outline: none;
+	width: 40%;
+}
+
+.textarea {
+	width: 100%;
+	min-height: 400px;
+	resize: none;
+	outline: none;
+	border-radius: 0;
+}
+
+.panel {
+	width: 100%;
+	margin-bottom: 0;
+}
+
+#cke_1_contents {
+	height: 600px !important;
+}
+
+.btn-item {
+	margin: 0 0 20px 400px;
+}
+
+.swal2-container {
+	z-index: 10020 !important;
+}

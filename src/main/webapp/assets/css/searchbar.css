@@ -1,0 +1,19 @@
+/* ====== search bar ====== */
+#searchbar {
+    margin-top: -85px;
+}
+#searchbar .form-control {
+    height: 40px;
+    padding: 0 15px;
+    font-size: 14px;
+}
+#searchbar .btn {
+    line-height: 26px;
+    font-size: 14px;
+}
+.air_search_select {
+    width: 49%;
+}
+.air_search_select + .air_search_select {
+    margin-left: 2%;
+}

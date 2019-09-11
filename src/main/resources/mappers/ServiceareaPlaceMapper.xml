@@ -1,0 +1,122 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : ServiceareaPlaceMapper.xml
+    @author      : 홍준성
+    @description : 휴게소 위치 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-05-02
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "ServiceareaPlaceMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "serviceareaPlace" type = "project.spring.travel.model.ServiceareaPlace">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="servicearea_placeId" column="servicearea_placeId"/>
+        <result property="query" column="query"/>
+        <result property="queryX" column="queryX"/>
+        <result property="queryY" column="queryY"/>
+        <result property="id" column="id"/>
+        <result property="category_name" column="category_name"/>
+        <result property="place_name" column="place_name"/>
+        <result property="phone" column="phone"/>
+        <result property="address_name" column="address_name"/>
+        <result property="road_address_name" column="road_address_name"/>
+        <result property="place_url" column="place_url"/>
+        <result property="distance" column="distance"/>
+        <result property="x" column="x"/>
+        <result property="y" column="y"/>
+        <result property="regDate" column="regDate"/>
+        <result property="editDate" column="editDate"/>
+    </resultMap>
+
+    <!-- ===== 휴게소 위치 정보 업데이트 ===== -->
+    <update id = "updateServiceareaPlaceByIdAndPlaceName"
+            parameterType = "project.spring.travel.model.ServiceareaPlace">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update servicearea_place 
+        Set 
+            query = #{query}, 
+            queryX = #{queryX}, 
+            queryY = #{queryY}, 
+            id = #{id}, 
+            category_name = #{category_name}, 
+            place_name = #{place_name}, 
+            phone = #{phone}, 
+            address_name = #{address_name}, 
+            road_address_name = #{road_address_name}, 
+            place_url = #{place_url}, 
+            distance = #{distance}, 
+            x = #{x}, 
+            y = #{y}, 
+            editDate = now() 
+        Where id = #{id} And place_name = #{place_name}
+    </update>
+    
+    <!-- ===== 휴게소 위치 정보 저장 -->
+    <insert id = "insertServiceareaPlace"
+            parameterType = "project.spring.travel.model.ServiceareaPlace"
+            useGeneratedKeys = "true"
+            keyProperty = "servicearea_placeId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Insert Into servicearea_place (
+            query, queryX, queryY, id, 
+            category_name, place_name, phone, address_name, road_address_name, 
+            place_url, distance, x, y, regDate 
+        ) Values (
+            #{query}, #{queryX}, #{queryY}, #{id}, 
+            #{category_name}, #{place_name}, #{phone}, #{address_name}, #{road_address_name}, 
+            #{place_url}, #{distance}, #{x}, #{y}, now() 
+        )
+    </insert>
+    
+    <!-- ===== 휴게소 위치 정보 조회 ===== -->
+    <select id = "selectServiceareaPlace"
+            parameterType = "project.spring.travel.model.ServiceareaPlace"
+            resultMap = "serviceareaPlace">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_placeId, query, queryX, queryY, id, 
+            category_name, place_name, phone, address_name, road_address_name, 
+            place_url, distance, x, y, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_place 
+        Where servicearea_placeId = #{servicearea_placeId}
+    </select>
+    
+    <!-- ===== 휴게소 위치 정보 다중 조회 ===== -->
+    <select id = "selectServiceareaPlaceList"
+            parameterType = "project.spring.travel.model.ServiceareaPlace"
+            resultMap = "serviceareaPlace">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_placeId, query, queryX, queryY, id, 
+            category_name, place_name, phone, address_name, road_address_name, 
+            place_url, distance, x, y, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_place 
+    </select>
+    
+    <!-- ===== 휴게소 위치 정보를 휴게소 이름으로 조회 ===== -->
+    <select id = "selectServiceareaPlaceByQuery"
+            parameterType = "project.spring.travel.model.ServiceareaPlace"
+            resultMap = "serviceareaPlace">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_placeId, query, queryX, queryY, id, 
+            category_name, place_name, phone, address_name, road_address_name, 
+            place_url, distance, x, y, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_place 
+        Where query Like Concat('%', #{query}, '%') 
+        Limit 0, 1
+    </select>
+    
+</mapper>

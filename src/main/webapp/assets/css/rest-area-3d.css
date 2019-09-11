@@ -1,0 +1,114 @@
+:root {
+    --z-distance: -20vw;
+    --from-left: 1;
+    --mobile-bkp: 650px;
+}
+
+.slider-box {
+    /*width와 left 크기가 노트북 기준 1550? 쯤으로 미디어쿼리 나눠야함*/
+    width: 1920px;
+    height: 600px;
+    left: -367px;
+    margin-bottom: 600px;
+}
+
+.slider {
+    width: 100vw;
+    height: 600px;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+.slider__content {
+    margin: 0 35%;
+    width: 65vw;
+    height: 32.5vw;
+    max-height: 60vh;
+}
+
+.slider__images {
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.slider__text-item {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0.5em;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.slider__text-item>* {
+    overflow: hidden;
+    position: absolute;
+}
+
+.slider__text-item h3,
+.slider__text-item p {
+    transition: -webkit-transform 0.35s ease-out;
+    transition: transform 0.35s ease-out;
+    transition: transform 0.35s ease-out, -webkit-transform 0.35s ease-out;
+    line-height: 1.5;
+    overflow: hidden;
+}
+
+.slider__text-item h3 {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+}
+
+.slider__text-item p {
+    font-family: 'Open Sans', sans-serif;
+    padding: 1em;
+    color: white;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.slider__text-item h3 {
+    margin: 0;
+    font-size: 4.5em;
+    padding: 0 .3em;
+    position: relative;
+    font-weight: 700;
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+}
+
+.slider__text-item-head {
+    top: -1.5em;
+    left: -2.5em;
+    -webkit-transform: translateZ(3em);
+    transform: translateZ(3em);
+}
+
+.slider__text-item-info {
+    font-size: 2.2em;
+    bottom: -22.0em;
+    right: 0px;
+    max-width: 100%;
+    min-width: -webkit-min-content;
+    min-width: -moz-min-content;
+    min-width: min-content;
+    -webkit-transform: translateZ(2em);
+    transform: translateZ(2em);
+}
+
+.slider__text-item--active h3,
+.slider__text-item--active p {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+}
+
+.slider__nav-arrow {
+    text-indent: -9999px;
+}

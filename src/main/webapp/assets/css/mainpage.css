@@ -1,0 +1,709 @@
+h1 {
+    font-size: 72px;
+}
+
+h2 {
+    font-size: 48px;
+}
+
+h3 {
+    font-size: 36px;
+}
+
+h4 {
+    font-size: 24px;
+}
+
+h5 {
+    font-size: 18px;
+}
+
+/*====== visual ======*/
+#visual {
+    height: 100vh;
+}
+#visual .bg {
+    height: 100vh;
+    background-image: url(../../images/main/bg.jpg);
+    background-position: center 20%;
+}
+
+/*====== search bar ======*/
+#searchbar {
+    top: 90vh;
+}
+
+/*====== 1번 프레임 - 관광 ======*/
+div
+{
+    display: block;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+a, a:hover, a:visited, a:active, a:link
+{
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
+    text-shadow: rgba(0,0,0,.01) 0 0 1px;
+}
+.section_title
+{
+    font-size: 30px;
+    font-weight: 600;
+    color: #282828;
+    line-height: 0.75;
+}
+.section_subtitle
+{
+    font-size: 14px;
+    font-weight: 500;
+    color: #828282;
+    line-height: 0.75;
+    margin-top: 15px;
+}
+/*********************************
+8. Cities
+*********************************/
+
+.cities .l-pic {
+	width: 200px;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    display: inline-block;
+    left: -250px;
+    top: 110px;
+    transform: rotateZ(-20deg);
+    background-image: url(../../images/tour/picture.png);
+}
+
+.cities .r-pic {
+	width: 400px;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    display: inline-block;
+    left: 1120px;
+    top: 250px;
+    transform: rotateZ(10deg);
+    background-image: url(../../images/tour/ticket.png);
+}
+
+.cities .c-pic {
+	width: 800px;
+    height: 800px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    display: inline-block;
+    left: 180px;
+    top: 0px;
+    transform: rotateZ(-90deg);
+    background-image: url(../../images/tour/HotTourList.png);
+}
+
+.cities
+{
+    padding-top: 105px;
+    padding-bottom: 78px;
+    text-align: center;
+}
+.cities .container .section_title {
+	top: -20px;
+}
+
+.cities_container
+{
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-top: 60px;
+}
+
+
+.city
+{
+    width: calc((100% - 81px) / 4);
+    margin-bottom: 26px;
+    margin-right: 20px;
+}
+.city img
+{
+    max-width: 100%;
+}
+.city_overlay
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(72, 127, 238, 0.65), rgba(50, 250, 149, 0.65));
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 800ms ease;
+    -moz-transition: all 800ms ease;
+    -ms-transition: all 800ms ease;
+    -o-transition: all 800ms ease;
+    transition: all 800ms ease;
+}
+.city:hover .city_overlay
+{
+    visibility: visible;
+    opacity: 1;
+}
+.city_overlay a
+{
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.city_title
+{
+    padding-top: 60px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #FFFFFF;
+    -webkit-transform: translateX(-30px);
+    -moz-transform: translateX(-30px);
+    -ms-transform: translateX(-30px);
+    -o-transform: translateX(-30px);
+    transform: translateX(-30px);
+    -webkit-transition: all 800ms ease;
+    -moz-transition: all 800ms ease;
+    -ms-transition: all 800ms ease;
+    -o-transition: all 800ms ease;
+    transition: all 800ms ease;
+}
+.city:hover .city_title
+{
+    transform: translateX(0px);
+}
+.city_subtitle
+{
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFFFFF;
+    -webkit-transform: translateX(30px);
+    -moz-transform: translateX(30px);
+    -ms-transform: translateX(30px);
+    -o-transform: translateX(30px);
+    transform: translateX(30px);
+    -webkit-transition: all 800ms ease;
+    -moz-transition: all 800ms ease;
+    -ms-transition: all 800ms ease;
+    -o-transition: all 800ms ease;
+    transition: all 800ms ease;
+}
+.city:hover .city_subtitle
+{
+    transform: translateX(0px);
+}
+
+
+/*====== 2번 프레임 - 휴게소 ======*/
+
+.servicearea_curtain {
+	width: 1920px;
+    height: 600px;
+    left: -367px;
+    position: absolute;
+    z-index: 500;
+    background-image: url(../../images/servicearea/bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.servicearea_bg {
+	background-image: url("../../images/servicearea/bg2.jpg");
+	background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 1920px !important;
+    height: 600px !important;
+    left: -367px !important;
+    position: absolute !important;
+    opacity: 0.8 !important;
+}
+
+.foodinfo {
+	border: 1px solid #d5d5d5;
+	border-bottom: 0;
+    background-color: lightyellow;
+}
+
+.table-oil {
+    background-color: aliceblue;
+}
+
+.rest-detail {
+    width: 100%;
+    height: 600px;
+}
+
+.rest-detail .c-pic {
+	width: 1190px;
+    height: 700px;
+    background-image: url(../../images/main/restareaFrame.png);
+    position: absolute;
+    display: inline-block;
+    z-index: 100;
+    top: -70px;
+    left: -10px;
+    background-size: 100% 100%;
+}
+
+.restarea-slider {
+    margin-top: 270px;
+    z-index: 110 !important;
+    top: 120px;
+}
+
+.restarea-slider {
+    margin-top: 150px;
+}
+
+.food_image {
+	display: inline-block;
+    width: 100%;
+}
+
+.food_image img {
+	height: 300px !important;
+}
+
+.food_name {
+	height: 50px;
+    padding-top: 10px;
+    font-size: 20px;
+    line-height: 30px;
+    display: block;
+    text-align: center;
+}
+
+.food_price {
+	display: block;
+	font-size: 18px;
+    text-align: center;
+}
+
+.rest-text {
+	font-size: 16px !important;
+	width: 400px;
+	height: 400px;
+	position: absolute;
+	top: 100px;
+	left: 8%;
+}
+
+.foodinfo .image {
+	display: inline-block !important;
+	width: 55% !important;
+}
+
+.foodinfo .text-area {
+	display: inline-block !important;
+	width: 44% !important;
+	vertical-align: middle;
+}
+
+.foodinfo .text {
+	text-align: center;
+}
+
+.rest-text > table {
+    text-align: center;
+}
+
+.rest-text > table > tbody > tr > th {
+    text-align: center;
+}
+
+/*====== 3번 프레임 - 항공 ======*/
+
+a,
+a:focus,
+a:hover {
+    text-decoration: none;
+    outline: 0
+}
+
+.air-bg {
+    background: url(../../images/air/carousel_3.jpg) center center fixed no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    width: 1920px;
+    height: 600px;
+    left: -367px;
+    margin-top: 80px;
+    display: table;
+}
+
+.reserve-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#reserve {
+    width: 250px;
+    height: 250px;
+    margin: auto;
+}
+
+#reserve-front {
+    background: url(../../images/common/logo2.jpg) center center no-repeat;
+    background-size: cover;
+    border-radius: 50px;
+}
+
+#reserve-back {
+    background-color: white;
+    text-align: center;
+    border-radius: 50px;
+}
+
+#reserve-back img {
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin: auto;
+    padding: 10px;
+}
+
+#reserve-back a {
+    display: inline-block;
+    width: 170px;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: 3px solid #222;
+    color: #222;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.content-details h3 {
+    margin: auto;
+}
+
+.primary-btn {
+    background-color: #c6b069;
+    line-height: 42px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 25px;
+    border: none;
+    color: #fff;
+    display: inline-block;
+    font-weight: 500;
+    position: relative;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    position: relative;
+}
+
+.gallery-area .row {
+    margin-top: 800px;
+}
+
+.gallery-area .single-gallery {
+    margin-bottom: 30px;
+}
+
+.gallery-area .single-gallery .content {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+    height: 227.5px;
+}
+
+.gallery-area .single-gallery .content .primary-btn {
+    border-radius: 0px;
+}
+
+.gallery-area .single-gallery .content .content-overlay {
+    background-color: #373642;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    border-radius: 10px;
+    border: 1px solid #c6b069;
+    -webkit-transition: all 0.4s ease-in-out 0s;
+    -moz-transition: all 0.4s ease-in-out 0s;
+    transition: all 0.4s ease-in-out 0s;
+}
+
+.gallery-area .single-gallery .content-overlay {
+    margin: 20px;
+}
+
+.gallery-area .single-gallery .content:hover .content-overlay {
+    opacity: .8;
+}
+
+.gallery-area .single-gallery .content-details {
+    position: absolute;
+    text-align: center;
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -moz-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
+
+.gallery-area .single-gallery .content-title {
+    width: 60%;
+    border-bottom: 1px solid #c6b069;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 500;
+    padding: 20px 0px;
+    margin: auto;
+}
+
+.gallery-area .single-gallery .content:hover .content-details {
+    top: 50%;
+    left: 50%;
+    opacity: 1;
+}
+
+.gallery-area .single-gallery .content-image {
+    width: 100%;
+}
+
+.gallery-area .single-gallery .content-details p {
+    color: #fff;
+    font-size: 0.8em;
+}
+
+.gallery-area .single-gallery .fadeIn-bottom {
+    top: 80%;
+}
+
+.h-267 img {
+    height: 267px;
+}
+
+/*====== 4번 프레임 - 문화 ======*/
+
+.culture-layout {
+     width: 1920px;
+     height: 600px;
+     margin-top: 100px;
+     left: -367px;
+}
+
+.culture-layout .c-pic {
+	background-image: url("../../images/main/cultureFrame.png");
+    width: 1320px;
+    height: 420px;
+    position: absolute;
+    z-index: 510;
+    left: 300px;
+    top: 80px;
+    opacity: 0;
+}
+
+.culture-layout .cont-box {
+    position: absolute;
+    right: 34.1%;
+    float: right;
+    border-right: 600px solid transparent; /*border의 성질을 이용해 오른쪽테두리만 투명으로 만든다. */
+    border-bottom: 600px solid #a8c9da; /*border를 사용해 두께를 만든다.*/
+    /* -webkit-animation: moveL 1s 1.25s 1 ease forwards; */
+    opacity: 0;
+}
+
+.culture-layout .cont-box-rotate {
+    position: absolute;
+    left: 34%;
+    float: left;
+    border-left: 600px solid transparent;
+    border-top: 600px solid #a8c9da; 
+    /* -webkit-animation: moveR 1s 1.25s 1 ease forwards; */
+    opacity: 0;
+}
+
+.culture-layout .culture-slider {
+	opacity: 0;
+	margin-top: 140px;
+	position: absolute;
+	z-index: 510 !important;
+	/* -webkit-animation: showc 1s 1.25s 1 ease forwards; */
+}
+
+@-webkit-keyframes moveL {
+    0% {
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 1;
+        -moz-transform: translateX(-111%);
+        -ms-transform: translateX(-111%);
+        -webkit-transform: translateX(-111%);
+        transform: translateX(-111%);
+        z-index: 500;
+    }
+}
+
+@-webkit-keyframes RmoveL {
+    0% {
+        opacity: 1;
+        -moz-transform: translateX(-111%);
+        -ms-transform: translateX(-111%);
+        -webkit-transform: translateX(-111%);
+        transform: translateX(-111%);
+        z-index: 500;
+    }
+
+    100% {
+    	-moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@-webkit-keyframes moveR {
+    0% {
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 1;
+        -moz-transform: translateX(109%);
+        -ms-transform: translateX(109%);
+        -webkit-transform: translateX(109%);
+        transform: translateX(109%);
+        z-index: 500;
+    }
+}
+
+@-webkit-keyframes RmoveR {
+    0% {
+        opacity: 1;
+        -moz-transform: translateX(109%);
+        -ms-transform: translateX(109%);
+        -webkit-transform: translateX(109%);
+        transform: translateX(109%);
+        z-index: 500;
+    }
+
+    100% {
+    	-moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@-webkit-keyframes showc {
+    0% {
+        opacity: 0;
+    }
+    
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes Rshowc {
+    0% {
+        opacity: 1;
+    }
+    
+    100% {
+        opacity: 0;
+    }
+}
+
+.culture-info {
+    margin: 100px 0;
+    width: 100%;
+}
+
+.culture-info .section_subtitle {
+	line-height: 2 !important;
+	color: black !important;
+}
+
+.culture-info .section_subtitle th {
+	width: 25%;
+}
+
+.culture-items {
+    padding: 10px 0;
+    margin: 50px 0;
+}
+
+.culture-items h4 {
+    border: 0;
+    font-weight: bold;
+    margin: 10px 0 0 0;
+}
+
+.subtitle-box {
+    border: 1px solid black;
+    width: 600px;
+    height: 370px;
+}
+
+.mgl-36 {
+	margin-left: 36px;
+}
+
+.culture-slider-item img {
+    width: 265px !important;
+    height: 317px !important;
+    margin: auto;
+}
+
+.owl-dots {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.owl-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #d5d5d5 !important;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.owl-dot.active {
+    width: 16px;
+    height: 16px;
+    background-color: lightcoral !important;
+    border-radius: 10px;
+    position: relative;
+    top: 2px;
+}

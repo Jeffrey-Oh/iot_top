@@ -1,0 +1,186 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : CultureFestMapper.xml
+    @author      : 임형진
+    @description : 문화 축제 영역을 DB에 저장하거나 DB에서 view단으로 출력하기 위한 매퍼
+    @lastUpdate  : 2019-05-12
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "CultureFestivalMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "cultureFestival" type = "project.spring.travel.model.CultureFestival">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	     	<result property="festId" column="festId"/>                      
+			<result property="addr1" column="addr1"/>                        
+			<result property="addr2" column="addr2"/>                        
+			<result property="contentId" column="contentId"/>                
+			<result property="createdTime" column="createdTime"/>            
+			<result property="eventStartDate" column="eventStartDate"/>      
+			<result property="eventEndDate" column="eventEndDate"/>          
+			<result property="firstImage" column="firstImage"/>              
+			<result property="firstImage2" column="firstImage2"/>            
+			<result property="mapX" column="mapX"/>                          
+			<result property="mapY" column="mapY"/>                          
+			<result property="tel" column="tel"/>                            
+			<result property="title" column="title"/>                        
+			<result property="infoText" column="infoText"/>
+			<result property="infoText2" column="infoText2"/>
+			<result property="placeInfo" column="placeInfo"/>                                   
+			<result property="playTime" column="playTime"/>                  
+			<result property="program" column="program"/>                    
+			<result property="spendTimeFestival" column="spendTimeFestival"/>
+			<result property="sponsor1" column="sponsor1"/>                  
+			<result property="sponsor1Tel" column="sponsor1Tel"/>            
+			<result property="sponsor2" column="sponsor2"/>                  
+			<result property="sponsor2Tel" column="sponsor2Tel"/>            
+			<result property="ageLimit" column="ageLimit"/>                  
+			<result property="festLike" column="festLike"/>                  
+	    </resultMap>
+
+    <!-- ===== 문화 축제 정보 업데이트 ===== -->
+    <update id = "updateCultureFestival"
+        parameterType = "project.spring.travel.model.CultureFestival">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        UPDATE culture_fest 
+        SET 
+        addr1=#{addr1}, addr2=#{addr2}, contentId=#{contentId}, createdTime=#{createdTime}, 
+        eventStartDate=#{eventStartDate}, eventEndDate=#{eventEndDate}, firstImage=#{firstImage}, firstImage2=#{firstImage2}, 
+        mapX=#{mapX}, mapY=#{mapY}, tel=#{tel}, title=#{title}, infoText=#{infoText}, playTime=#{playTime}, program=#{program}, 
+        spendTimeFestival=#{spendTimeFestival}, sponsor1=#{sponsor1}, sponsor1Tel=#{sponsor1Tel}, sponsor2=#{sponsor2}, 
+        sponsor2Tel=#{sponsor2Tel}, ageLimit=#{ageLimit} 
+        WHERE contentId=#{contentId}
+    </update>
+    
+    <!-- ===== 문화 축제 정보 저장 ===== -->
+    <insert id = "insertCultureFestival"
+            parameterType = "project.spring.travel.model.CultureFestival"
+            useGeneratedKeys = "true"
+            keyProperty = "festId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        INSERT INTO culture_fest (
+        addr1, addr2, contentId, createdTime, eventStartDate, eventEndDate, firstImage, firstImage2, 
+        mapX, mapY, tel, title, infoText, playTime, program, spendTimeFestival, 
+        sponsor1, sponsor1Tel, sponsor2, sponsor2Tel, ageLimit, placeInfo, festLike
+        ) VALUES (
+        #{addr1}, #{addr2}, #{contentId}, #{createdTime}, #{eventStartDate}, #{eventEndDate}, #{firstImage}, 
+        #{firstImage2}, #{mapX}, #{mapY}, #{tel}, #{title}, #{infoText}, #{playTime}, #{program}, #{spendTimeFestival}, 
+        #{sponsor1}, #{sponsor1Tel}, #{sponsor2}, #{sponsor2Tel}, #{ageLimit}, #{placeInfo}, 0);
+    </insert>
+    
+   <!--  문화 공연 정보 목록 조회 -->
+    
+    <select id="selectCultureFestivalList" parameterType="project.spring.travel.model.CultureFestival"
+    resultMap="cultureFestival">
+    	SELECT festId, addr1, addr2, contentId, createdTime, eventStartDate, eventEndDate, firstImage, firstImage2, 
+    	mapX, mapY, tel, title, infoText, playTime, program, spendTimeFestival, sponsor1, sponsor1Tel, sponsor2, sponsor2Tel, ageLimit, festLike
+        FROM culture_fest        
+        	<where>			
+			<!-- 시작일 -->
+			<if test="eventStartDate != null and eventStartDate != 0 ">
+				(eventStartDate=#{eventStartDate} OR eventStartDate &gt; #{eventStartDate})
+			</if>
+			<!-- 종료일 -->
+			<if test="eventEndDate != null and eventEndDate != 0">
+				AND (eventEndDate=#{eventEndDate} OR eventEndDate &lt; #{eventEndDate})
+			</if>			
+			
+			
+			
+			<!-- 제목 검색 -->
+			<if test="title != null">
+				AND trim(replace(title,' ','')) like replace(concat('%', #{title}, '%'),' ','')
+			</if>			
+			
+		</where>
+		ORDER BY eventEndDate desc
+        LIMIT #{limitStart}, #{listCount}
+    </select>
+    
+    <!-- 문화 공연 아이템 목록 조회 -->
+    
+    <select id="selectCultureFestivalItem" parameterType="project.spring.travel.model.CultureFestival"
+    resultMap="cultureFestival">
+    	SELECT 
+    		festId, addr1, addr2, contentId, createdTime, eventStartDate, eventEndDate, firstImage, firstImage2, 
+    		mapX, mapY, tel, title, infoText, playTime, program, spendTimeFestival, sponsor1, sponsor1Tel, sponsor2, sponsor2Tel, ageLimit, festLike
+        FROM culture_fest
+        WHERE contentId=#{contentId} or festId=#{festId}
+    </select>
+    
+  <!--    문화 공연 아이템 처음과 끝 조회 -->
+    
+    <select id="selectCultureFestivalItemFL" parameterType="project.spring.travel.model.CultureFestival"
+    resultMap="cultureFestival">
+    	SELECT 
+    		festId, addr1, addr2, contentId, createdTime, eventStartDate, eventEndDate, firstImage, firstImage2, 
+    		mapX, mapY, tel, title, infoText, playTime, program, spendTimeFestival, sponsor1, sponsor1Tel, sponsor2, sponsor2Tel, ageLimit, festLike
+        FROM culture_fest
+        LIMIT #{limitStart}, #{listCount}
+    </select>
+    
+    <!-- 공연 문화 좋아요 증가 업데이트 --> 
+    <update id="updateCultureFestByLikeUp"
+        parameterType="project.spring.travel.model.CultureFestival">
+        UPDATE culture_fest 
+        SET 
+            festLike = festLike + 1 
+        WHERE contentId = #{contentId}
+    </update>
+    
+    <!-- 공연 문화 좋아요 증가 업데이트 --> 
+    <update id="updateCultureFestByLikeDown"
+        parameterType="project.spring.travel.model.CultureFestival">
+        UPDATE culture_fest 
+        SET 
+            festLike = festLike - 1 
+        WHERE contentId = #{contentId}
+    </update>
+    
+   <!--  공연 문화 좋아요 조회 -->
+    <select id="selectCultureCount" parameterType="project.spring.travel.model.CultureFestival" 
+    	resultMap="cultureFestival">
+    SELECT festLike
+    FROM culture_fest
+    WHERE contentId =#{contentId}
+    
+    </select>
+    
+    
+    
+    
+    
+    
+    <!-- 문화 공연 목록 수 조회(페이지 구현용) --> 
+    <select id="countCultureFestivalList" parameterType="project.spring.travel.model.CultureFestival"
+    resultType="int">
+    	SELECT 
+    		count(festId)
+        FROM culture_fest
+        <where>
+        <!-- 시작일 -->
+			<if test="eventStartDate != null and eventStartDate != 0">
+				(eventStartDate=#{eventStartDate} OR eventStartDate &gt; #{eventStartDate})
+			</if>
+			<!-- 종료일 -->
+			<if test="eventEndDate != null and eventEndDate != 0">
+				AND (eventEndDate=#{eventEndDate} OR eventEndDate &lt; #{eventEndDate})
+			</if>		
+			
+			
+			
+			<!-- 제목 검색 -->
+			<if test="title != null">
+				AND trim(replace(title,' ','')) like replace(concat('%', #{title}, '%'),' ','')
+			</if>
+		</where>        
+    </select>
+    
+    
+    
+</mapper>  

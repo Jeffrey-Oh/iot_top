@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CodeMapper">
+
+	<resultMap id="code" type="project.spring.travel.model.Code">
+		<result property="cityKor" column="cityKor" />
+		<result property="cityCode" column="cityCode" />
+	</resultMap>
+
+	<!-- 공항 코드 추가 -->
+	<insert id="addCode" parameterType="project.spring.travel.model.Code">
+		INSERT INTO air_code (cityKor, cityCode)
+		VALUES (#{cityKor},
+		#{cityCode});
+	</insert>
+
+	<!-- 공항 코드 수정 -->
+	<update id="editCode" parameterType="project.spring.travel.model.Code">
+		UPDATE air_code SET cityKor=#{cityKor}, cityCode=#{cityCode} WHERE
+		cityKor like concat('%', #{cityKor},
+		'%') or cityCode like
+		concat('%', #{cityCode}, '%');
+	</update>
+
+	<!-- 공항 코드 전체 조회 -->
+	<select id="getCodeList"
+		parameterType="project.spring.travel.model.Code" resultMap="code">
+		SELECT cityKor, cityCode FROM air_code;
+	</select>
+
+	<!-- 공항 코드 검색 결과 -->
+	<select id="getCodeOne"
+		parameterType="project.spring.travel.model.Code" resultMap="code">
+		SELECT cityKor, cityCode FROM air_code where cityKor like concat('%',
+		#{cityKor},
+		'%') or cityCode like
+		concat('%', #{cityCode}, '%');
+	</select>
+</mapper>

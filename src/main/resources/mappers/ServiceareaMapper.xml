@@ -1,0 +1,107 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : ServiceareaMapper.xml
+    @author      : 홍준성
+    @description : 휴게소 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-05-01
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "ServiceareaMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "servicearea" type = "project.spring.travel.model.Servicearea">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="serviceareaId" column="serviceareaId"/>
+        <result property="unitName" column="unitName"/>
+        <result property="unitCode" column="unitCode"/>
+        <result property="routeNo" column="routeNo"/>
+        <result property="routeName" column="routeName"/>
+        <result property="xValue" column="xValue"/>
+        <result property="yValue" column="yValue"/>
+    </resultMap>
+
+    <!-- ===== 휴게소기본 정보 업데이트 ===== -->
+    <update id = "updateServiceareaByUnitCode"
+            parameterType = "project.spring.travel.model.Servicearea">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update servicearea 
+        Set 
+            unitName = #{unitName}, 
+            routeNo = #{routeNo}, 
+            routeName = #{routeName}, 
+            xValue = #{xValue}, 
+            yValue = #{yValue},
+            editDate = now()
+        Where unitCode = #{unitCode}
+    </update>
+    
+    <!-- ===== 휴게소기본 정보 저장 ===== -->
+    <insert id = "insertServicearea"
+            parameterType = "project.spring.travel.model.Servicearea"
+            useGeneratedKeys = "true"
+            keyProperty = "serviceareaId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Insert Into servicearea (
+            unitName, unitCode, routeNo, routeName, xValue, yValue, regDate
+        ) Values (
+            #{unitName}, #{unitCode}, #{routeNo}, #{routeName}, #{xValue}, #{yValue}, now()
+        )
+    </insert>
+    
+    <!-- ===== 휴게소기본 정보 조회 ===== -->
+    <select id = "selectServicearea"
+            parameterType = "project.spring.travel.model.Servicearea"
+            resultMap = "servicearea">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            serviceareaId, unitName, unitCode, routeNo, routeName, xValue, yValue, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea
+        Where serviceAreaId = #{serviceAreaId}
+    </select>
+    
+    <!-- ===== 휴게소기본 정보 위치 보정 ===== -->
+    <update id = "updateServiceareaByServiceareaCsOrServiceareaPlace"
+            parameterType = "project.spring.travel.model.Servicearea">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update servicearea 
+        Set 
+            xValue = #{xValue}, 
+            yValue = #{yValue},
+            editDate = now()
+        Where serviceareaId = #{serviceareaId}
+    </update>
+    
+    <!-- ===== 휴게소기본 정보를 휴게소이름으로 조회 ===== -->
+    <select id = "selectServiceareaByUnitName"
+            parameterType = "project.spring.travel.model.Servicearea"
+            resultMap = "servicearea">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            serviceareaId, unitName, unitCode, routeNo, routeName, xValue, yValue, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea
+        Where unitName Like Concat('%', #{unitName}, '%') 
+        Limit 0, 1
+    </select>
+    
+    <!-- 휴게소 목록 조회를 위한 SQL 정의 -->
+    <select id = "selectServiceareaList"
+        parameterType = "project.spring.travel.model.Servicearea"
+        resultMap = "servicearea">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select
+            serviceareaId, unitName, unitCode, routeNo, routeName, xValue, yValue, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea
+    </select>
+    
+</mapper>

@@ -1,0 +1,471 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : MemberMapper.xml
+    @author      : 홍준성
+    @description : member 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-04-13
+-->
+<!-- config.xml 에서 명시하는 mapper 파일에는 수행해야 할
+	SQL 구문들이 작성되게 된다.
+	travel.java.travel.mapper 패키지를 생성하고 그 안에
+	MemberMapper.xml 파일을 추가해야 한다.
+	Mapper XML 파일은 일반적으로 테이블 하나당 하나씩 생성된다.
+
+	Mapper XML의 역할
+	JavaBeans와 DB Table의 Mapping 및 수행해야 하는 SQL문 정의
+	SQL 수행에 필요한 값을 Beans 객체에서 꺼내거나,
+	SQL결과를 Benas에 저장한다.
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "MemberMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "member" type = "project.spring.travel.model.Member">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="memberId" column="memberId"/>
+        <result property="userName" column="userName"/>
+        <result property="gender" column="gender"/>
+        <result property="birthDate" column="birthDate"/>
+        <result property="userId" column="userId"/>
+        <result property="userPw" column="userPw"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="postcode" column="postcode"/>
+        <result property="address1" column="address1"/>
+        <result property="address2" column="address2"/>
+        <result property="marketingCheckedDate" column="marketingCheckedDate"/>
+        <result property="toEmailCheckedDate" column="toEmailCheckedDate"/>
+        <result property="toSmsCheckedDate" column="toSmsCheckedDate"/>
+        <result property="regDate" column="regDate"/>
+        <result property="editDate" column="editDate"/>
+        <result property="deleteDate" column="deleteDate"/>
+        <result property="grade" column="grade"/>
+        <result property="profileImg" column="profileImg"/>
+    </resultMap>
+
+    <!-- 이 위치에서 DAO의 메서드에 해당하는 내용을 기술한다. -->
+
+    <!-- #################### 회원가입 #################### -->
+    <!--
+        ## 본인인증 및 가입 가능 여부 검사
+        (이미 기존 회원일 시 alert, 가입 가능 시 userName, gender, birthDate, email 입력값을 받아온다.)
+
+        단일 데이터 조회를 위한 SQL문을 정의한다.
+        조회 기능이므로 <select> 태그를 사용한다.
+        이 태그가 SqlSession 객체에 의해 호출될 때,
+        MyBatis가 ResultSet에 대한 처리를 자동으로 수행하고,
+        조회 결과를 resultMap에서 정의하고 있는 JavaBeans에 저장하여
+        리턴한다.
+
+        단일행 조회를 위한 기능 정의
+        <select id = "메서드이름에 해당하는 식별자"
+            parameterType = "파라미터의 데이터 타입(Beans의 클래스명)"
+            resultMap = "리턴될 Beans이름">
+    -->
+    <select id = "memberCheck"
+        parameterType = "project.spring.travel.model.Member"
+        resultMap = "member">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select userName
+        From member
+        Where userName = #{userName} And gender = #{gender} And birthDate = #{birthDate} And email = #{email}
+    </select>
+
+    <!-- ### 이메일 중복확인 -->
+    <select id = "emailCheck"
+        parameterType = "project.spring.travel.model.Member"
+        resultType = "int">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select count(memberId)
+        From member
+        Where email = #{email}
+    </select>
+
+    <!-- ### 약관 동의 (marketingCheckedDate 입력값을 받아온다.) -->
+
+    <!--
+        #### 아이디 중복확인
+
+        - 중복검사 처리는 입력값과 동일한 데이터의 수를 구해 처리할 수 있다.
+            - count결과가 0보다 클 경우 중복으로 처리
+        - 집계함수를 수행할 경우 조회 결과는 int형의 데이터가 된다.
+            이 때, 리턴형을 명시하기 위한 XML속성은 resultType이다.
+            - 객체를 리턴하는 경우는 resultMap이므로 혼동하지 않도록 주의하자.
+
+        단일 데이터 조회를 위한 SQL문을 정의한다.
+        조회 기능이므로 <select> 태그를 사용한다.
+        이 태그가 SqlSession 객체에 의해 호출될 때,
+        MyBatis가 ResultSet에 대한 처리를 자동으로 수행하고,
+        조회 결과를 resultMap에서 정의하고 있는 JavaBeans에 저장하여
+        리턴한다.
+
+        단일행 조회를 위한 기능 정의
+        <select id = "메서드이름에 해당하는 식별자"
+            parameterType = "파라미터의 데이터 타입(Beans의 클래스명)"
+            resultMap = "리턴될 Beans이름">
+    -->
+    <select id = "userIdCheck"
+        parameterType = "project.spring.travel.model.Member"
+        resultType = "int">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select count(memberId)
+        From member
+        Where userId = #{userId}
+    </select>
+
+    <!--
+        ##### 입력값을 토대로 회원가입 정보 입력 후 저장
+
+        데이터 저장을 위한 SQL문을 정의한다.
+        저장 기능이므로 <insert> 태그로 정의한다.
+        Id값은 메서드 이름과 같은 역할을 한다.
+        이 태그에게 전달되는 Java Beans 객체의 이름을 명시한다.
+
+        데이터 저장을 위한 기능 정의
+        <insert id = "메서드이름에 해당하는 식별자"
+            parameterType = "파라미터의 데이터 타입(Beans의 클래스명)"
+            userGeneratedKeys = "자동증가 일변번호값 리턴 여부"
+            keyProperty = "자동증가 일련번호 컬럼명">
+    -->
+    <insert id = "addMember"
+        parameterType = "project.spring.travel.model.Member"
+        useGeneratedKeys = "true"
+        keyProperty = "memberId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Insert Into member (
+            userName, gender, birthDate, userId, userPw, phone, email, postcode, address1, address2,
+            marketingCheckedDate, toEmailCheckedDate, toSmsCheckedDate, regDate, deleteDate, grade, profileImg
+        ) Values (
+            #{userName}, #{gender}, #{birthDate}, #{userId}, password(#{userPw}), #{phone}, #{email}, #{postcode}, #{address1}, #{address2},
+            #{marketingCheckedDate}, #{toEmailCheckedDate}, #{toSmsCheckedDate}, now(), Date_add(now(), Interval +4 year), 'lv1', #{profileImg}
+        )
+    </insert>
+    <!-- #################### End 회원가입 #################### -->
+
+    <!-- #################### 회원정보 수정 ################### -->
+    <!--
+        ## 비밀번호를 통한 본인 인증 검사 (본인인증 공통)
+        (deleteDate를 제외한 나머지 추출)
+    -->
+    <!--
+        ===== 현재 로그인 중인 회원의 비밀번호를 검사한다. =====
+        - 회원의 일련번호와 입력한 비밀번호가 동시에 일치되는 데이터의 수를
+            Count하여 결과가 0인 경우 비밀번호가 잘못된 것으로 간주한다.
+    -->
+    <select id="selectMemberPasswordCount"
+            parameterType="project.spring.travel.model.Member"
+            resultType="int">
+        Select Count(memberId)
+        From member
+        Where memberId = #{memberId} And userPw = password(#{userPw})
+    </select>
+
+    <!--
+        ===== 비밀번호 변경 처리와 프로필 사진 변경 처리를 포함한 회원정보 수정 =====
+        ### 가져온 정보를 토대로 회원정보 수정 후 저장
+
+        데이터 수정을 위한 SQL문을 정의한다.
+        수정 기능이므로 <update> 태그를 사용한다.
+
+        데이터 수정을 위한 기능 정의
+        <update id = "메서드이름에 해당하는 식별자"
+            parameterType = "파라미터의 데이터 타입(Beans의 클래스명)">
+    -->
+    <update id = "editMember"
+        parameterType = "project.spring.travel.model.Member">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update member
+        Set
+            phone = #{phone},
+            email = #{email},
+            postcode = #{postcode},
+            address1 = #{address1},
+            address2 = #{address2},
+            toEmailCheckedDate = #{toEmailCheckedDate},
+            toSmsCheckedDate = #{toSmsCheckedDate},
+            editDate = now()
+            <!-- 새로운 비밀번호가 입력된 경우에만 수정한다. -->
+            <if test="newUserPw != null and newUserPw != ''">
+                , userPw = password(#{newUserPw})
+            </if>
+            <!--
+                컨트롤러에서 전달되는 profileImg값의 상태에 따라서
+                이미지 삭제/변경을 판단하여 Update
+            -->
+            <choose>
+                <when test="profileImg == ''">
+                    , profileImg = null
+                </when>
+                <when test="profileImg != null">
+                    , profileImg = #{profileImg}
+                </when>
+            </choose>
+        Where memberId = #{memberId}
+    </update>
+
+    <!-- ===== 수정된 회원 정보를 조회하기 위한 기능 추가 ===== -->
+    <!-- 일련번호에 의한 회원정보 조회 -->
+    <select id = "selectMember"
+        parameterType = "project.spring.travel.model.Member"
+        resultMap = "member">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select
+            memberId, userName, gender,
+            Date_format(birthDate, '%Y-%m-%d') As birthDate,
+            userId , userPw, phone, email, postcode, address1, address2,
+            Date_format(marketingCheckedDate, '%Y-%m-%d') As marketingCheckedDate,
+            Date_format(toEmailCheckedDate, '%Y-%m-%d') As toEmailCheckedDate,
+            Date_format(toSmsCheckedDate, '%Y-%m-%d') As toSmsCheckedDate,
+            Date_format(regDate, '%Y-%m-%d') As regDate,
+            Date_format(editDate, '%Y-%m-%d') As editDate,
+            Date_format(deleteDate, '%Y-%m-%d') As deleteDate,
+            grade, profileImg
+        From member
+        Where memberId = #{memberId}
+    </select>
+    <!-- ################# End 회원정보 수정 ################ -->
+
+    <!--
+        ##### 회원 탈퇴를 위한 SQL 구문 정의 #####
+        - 비밀번호 검사를 수행한 후 탈퇴가 가능해야 한다.
+    -->
+    <delete id="deleteMember"
+            parameterType="project.spring.travel.model.Member">
+        Delete From member
+        Where memberId = #{memberId}
+    </delete>
+
+    <!-- // ##### 회원 탈퇴를 위한 SQL 구문 정의 ##### -->
+
+    <!-- ################# 휴면 계정 삭제 ################ -->
+    <!--
+        ## 휴면 계정으로 전환 시 1년 유지 후 회원 탈퇴 진행
+
+        데이터 삭제를 위한 SQL문을 정의한다.
+        삭제 기능이므로 <delete> 태그를 사용한다.
+
+        데이터 삭제를 위한 기능 정의
+        <delete id = "메서드이름에 해당하는 식별자"
+            parameterType = "파라미터의 데이터 타입(Beans의 클래스명)">
+    -->
+    <delete id = "inactiveMemberDelete"
+        parameterType = "project.spring.travel.model.Member">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Delete From member
+        Where deleteDate &lt;= now()
+    </delete>
+    <!-- ################# End 휴면 계정 삭제 ################ -->
+
+    <!-- ################# 회원 로그인 ################ -->
+    <!--
+        ## 아이디와 비밀번호를 통한 로그인 시도 (본인인증 공통)
+        (userId, deleteDate를 추출한다.)
+    -->
+
+    <!--
+        ### 휴면 계정일 경우 다시 계정 활성으로 전환하기 위한 작업
+
+        데이터 수정을 위한 SQL문을 정의한다.
+        수정 기능이므로 <update> 태그를 사용한다.
+
+        데이터 수정을 위한 기능 정의
+        <update id = "메서드이름에 해당하는 식별자"
+            parameterType = "파라미터의 데이터 타입(Beans의 클래스명)">
+    -->
+    <update id = "activeMember"
+        parameterType = "project.spring.travel.model.Member">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update member
+        Set deleteDate = Date_add(now(), Interval +4 year)
+        Where memberId = #{memberId}
+    </update>
+    <!-- ################# End 회원 로그인 ################ -->
+
+    <!-- ############ 회원 아이디/비밀번호 찾기 ########### -->
+    <!--
+        ## 아이디 찾기 본인인증 검사
+        (회원 확인 시 userName, gender, birthDate, email 입력값을 받아온다.)
+
+        단일 데이터 조회를 위한 SQL문을 정의한다.
+        조회 기능이므로 <select> 태그를 사용한다.
+        이 태그가 SqlSession 객체에 의해 호출될 때,
+        MyBatis가 ResultSet에 대한 처리를 자동으로 수행하고,
+        조회 결과를 resultMap에서 정의하고 있는 JavaBeans에 저장하여
+        리턴한다.
+
+        단일행 조회를 위한 기능 정의
+        <select id = "메서드이름에 해당하는 식별자"
+            parameterType = "파라미터의 데이터 타입(Beans의 클래스명)"
+            resultMap = "리턴될 Beans이름">
+    -->
+    <select id = "userIdSearch"
+        parameterType = "project.spring.travel.model.Member"
+        resultMap = "member">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select memberId, userId , Date_format(regDate, '%Y-%m-%d') As regDate
+        From member
+        Where userName = #{userName} And gender = #{gender} And birthDate = #{birthDate} And email = #{email}
+    </select>
+
+    <!--
+        ## 비밀번호 찾기 본인인증 검사
+        (회원 확인 시 userId, userName, gender, birthDate, email 입력값을 받아온다.)
+
+        단일 데이터 조회를 위한 SQL문을 정의한다.
+        조회 기능이므로 <select> 태그를 사용한다.
+        이 태그가 SqlSession 객체에 의해 호출될 때,
+        MyBatis가 ResultSet에 대한 처리를 자동으로 수행하고,
+        조회 결과를 resultMap에서 정의하고 있는 JavaBeans에 저장하여
+        리턴한다.
+
+        단일행 조회를 위한 기능 정의
+        <select id = "메서드이름에 해당하는 식별자"
+            parameterType = "파라미터의 데이터 타입(Beans의 클래스명)"
+            resultMap = "리턴될 Beans이름">
+    -->
+    <select id = "userPwSearch"
+        parameterType = "project.spring.travel.model.Member"
+        resultMap = "member">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select memberId, userId
+        From member
+        Where userId = #{userId} And userName = #{userName} And gender = #{gender} And birthDate = #{birthDate} And email = #{email}
+    </select>
+
+    <!--
+        ### 비밀번호 재설정
+        (인증된 회원의 정보를 토대로 비밀번호를 수정한다.)
+
+        데이터 수정을 위한 SQL문을 정의한다.
+        수정 기능이므로 <update> 태그를 사용한다.
+
+        데이터 수정을 위한 기능 정의
+        <update id = "메서드이름에 해당하는 식별자"
+            parameterType = "파라미터의 데이터 타입(Beans의 클래스명)">
+    -->
+    <update id = "userPwChange"
+        parameterType = "project.spring.travel.model.Member">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update member
+        Set userPw = password(#{userPw}), editDate = now()
+        Where memberId = #{memberId}
+    </update>
+    <!-- ############ End 회원 아이디/비밀번호 찾기 ########### -->
+
+    <!-- ############ 본인인증 공통 ################ -->
+    <!--
+        # 회원정보 수정
+        # 회원 비활성
+        # 회원 로그인
+
+        단일 데이터 조회를 위한 SQL문을 정의한다.
+        조회 기능이므로 <select> 태그를 사용한다.
+        이 태그가 SqlSession 객체에 의해 호출될 때,
+        MyBatis가 ResultSet에 대한 처리를 자동으로 수행하고,
+        조회 결과를 resultMap에서 정의하고 있는 JavaBeans에 저장하여
+        리턴한다.
+
+        단일행 조회를 위한 기능 정의
+        <select id = "메서드이름에 해당하는 식별자"
+            parameterType = "파라미터의 데이터 타입(Beans의 클래스명)"
+            resultMap = "리턴될 Beans이름">
+    -->
+    <select id = "memberSearch"
+        parameterType = "project.spring.travel.model.Member"
+        resultMap = "member">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select
+            memberId, userName, gender,
+            Date_format(birthDate, '%Y-%m-%d') As birthDate,
+            userId, userPw, phone, email, postcode, address1, address2,
+            Date_format(marketingCheckedDate, '%Y-%m-%d') As marketingCheckedDate,
+            Date_format(toEmailCheckedDate, '%Y-%m-%d') As toEmailCheckedDate,
+            Date_format(toSmsCheckedDate, '%Y-%m-%d') As toSmsCheckedDate,
+            Date_format(regDate, '%Y-%m-%d') As regDate,
+            Date_format(editDate, '%Y-%m-%d') As editDate,
+            Date_format(deleteDate, '%Y-%m-%d') As deleteDate,
+            grade, profileImg
+        From member
+        Where userId = #{userId} And userPw = password(#{userPw})
+        Order By memberId Desc
+        Limit 0, 1
+    </select>
+    <!-- ############ End 본인인증 공통 ################ -->
+
+    <!-- ===== 관리자 계정으로 회원 관리를 하기 위한 영역 ===== -->
+    <!-- 회원 목록 조회를 위한 SQL 정의 -->
+    <select id = "selectMemberList"
+        parameterType = "project.spring.travel.model.Member"
+        resultMap = "member">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select
+            memberId, userName, gender,
+            Date_format(birthDate, '%Y-%m-%d') As birthDate,
+            userId, userPw, phone, email, postcode, address1, address2,
+            Date_format(marketingCheckedDate, '%Y-%m-%d') As marketingCheckedDate,
+            Date_format(toEmailCheckedDate, '%Y-%m-%d') As toEmailCheckedDate,
+            Date_format(toSmsCheckedDate, '%Y-%m-%d') As toSmsCheckedDate,
+            Date_format(regDate, '%Y-%m-%d') As regDate,
+            Date_format(editDate, '%Y-%m-%d') As editDate,
+            Date_format(deleteDate, '%Y-%m-%d') As deleteDate,
+            grade, profileImg
+        From member
+
+        <!--
+            ===== Dynamic SQL 기능을 사용한 SQL구문의 조건분기 =====
+            - JSP -> Service -> Mapper의 순서로 Beans 객체가 전달된다.
+            - 전달받은 Beans객체에 포함한 name값이 null이나 공백이 아닐 경우에만
+                Where절을 추가하도록 조건분기 기능을 사용한다.
+        -->
+        <where>
+            <if test="userName != null and userName != ''">
+                userName Like Concat('%', #{userName}, '%')
+            </if>
+        </where>
+
+        Order By memberId Desc 
+        <!--
+            ===== SQL Limit절 + 내림차순 정렬 적용하기 =====
+            - JSP에서 PageHelper를 통해 계산한 값을
+                Member 객체에 설정하고,
+                이 값이 다시 Mapper에게 전달되어 SQL의 Limit절이 구성된다.
+        -->
+        <if test="limitStart != null and listCount != null">
+            Limit #{limitStart}, #{listCount}
+        </if>
+    </select>
+    
+    <!--
+        ===== 전체 회원 수를 구하기 위한 기능 추가 =====
+        - 검색 결과가 있는 경우, 페이지 번호는 검색 결과 수에 따라 재구성된다.
+            - 이는 전체 게시물의 수를 산출할 때 검색 결과도 반영된다는 의미
+        - count, max, sum, min, avg 등의 집계 함수는 리턴값이 숫자 형태이므로,
+            resultMap 속성이 아닌 resultType 속성을 통해서 int 형을 명시해야 한다.
+    -->
+    <select id="selectMemberCount"
+            parameterType="project.spring.travel.model.Member"
+            resultType="int">
+        Select Count(memberId)
+        From member
+        
+        <where>
+            <if test="userName != null and userName != ''">
+                userName Like Concat('%', #{userName}, '%')
+            </if>
+        </where>
+    </select>
+    <!-- // ===== 관리자 계정으로 회원 관리를 하기 위한 영역 ===== -->
+    
+    <!-- ===== 로그인 시 등급에 맞게 업데이트 ===== -->
+    <update id = "updateMemberGrade"
+            parameterType = "project.spring.travel.model.Member">
+        Update member 
+        Set grade = #{grade} 
+        Where memberId = #{memberId}
+    </update>
+</mapper>

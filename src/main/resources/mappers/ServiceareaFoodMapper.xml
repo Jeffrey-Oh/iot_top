@@ -1,0 +1,106 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    @fileName    : ServiceareaFoodMapper.xml
+    @author      : 홍준성
+    @description : 휴게소 대표음식 테이블에 대한 SQL문을 정의하기 위한 Mapper 정의
+    @lastUpdate  : 2019-05-02
+-->
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace = "ServiceareaFoodMapper">
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id = "serviceareaFood" type = "project.spring.travel.model.ServiceareaFood">
+	    <!-- Beans의 멤버변수(property)이름과
+	        대상 테이블의 컬럼(column)을 연결한다.
+	    -->
+	    <result property="servicearea_foodId" column="servicearea_foodId"/>
+        <result property="serviceAreaCode" column="serviceAreaCode"/>
+        <result property="serviceAreaName" column="serviceAreaName"/>
+        <result property="routeCode" column="routeCode"/>
+        <result property="routeName" column="routeName"/>
+        <result property="direction" column="direction"/>
+        <result property="batchMenu" column="batchMenu"/>
+        <result property="salePrice" column="salePrice"/>
+        <result property="regDate" column="regDate"/>
+        <result property="editDate" column="editDate"/>
+    </resultMap>
+
+    <!-- ===== 휴게소 대표음식 정보 업데이트 ===== -->
+    <update id = "updateServiceareaFoodByServiceareaCode"
+            parameterType = "project.spring.travel.model.ServiceareaFood">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Update servicearea_food 
+        Set 
+            serviceAreaCode = #{serviceAreaCode}, 
+            serviceAreaName = #{serviceAreaName}, 
+            routeCode = #{routeCode}, 
+            routeName = #{routeName}, 
+            direction = #{direction}, 
+            batchMenu = #{batchMenu}, 
+            salePrice = #{salePrice}, 
+            editDate = now() 
+        Where serviceAreaCode = #{serviceAreaCode}
+    </update>
+    
+    <!-- ===== 휴게소 대표음식 정보 저장 -->
+    <insert id = "insertServiceareaFood"
+            parameterType = "project.spring.travel.model.ServiceareaFood"
+            useGeneratedKeys = "true"
+            keyProperty = "servicearea_foodId">
+        <!-- "#{변수명}" 으로 표시된 곳에 Beans의 멤버변수가 치환된다. -->
+        Insert Into servicearea_food (
+            serviceAreaCode, serviceAreaName, routeCode, routeName, 
+            direction, batchMenu, salePrice, regDate 
+        ) Values (
+            #{serviceAreaCode}, #{serviceAreaName}, #{routeCode}, 
+            #{routeName}, #{direction}, #{batchMenu}, #{salePrice}, 
+            now()
+        )
+    </insert>
+    
+    <!-- ===== 휴게소 대표음식 정보 조회 ===== -->
+    <select id = "selectServiceareaFood"
+            parameterType = "project.spring.travel.model.ServiceareaFood"
+            resultMap = "serviceareaFood">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_foodId, serviceAreaCode, serviceAreaName, routeCode, routeName, 
+            direction, batchMenu, salePrice, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_food 
+        Where servicearea_foodId = #{servicearea_foodId}
+    </select>
+    
+    <!-- ===== 휴게소 대표음식 정보 다중 조회 ===== -->
+    <select id = "selectServiceareaFoodList"
+            parameterType = "project.spring.travel.model.ServiceareaFood"
+            resultMap = "serviceareaFood">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_foodId, serviceAreaCode, serviceAreaName, routeCode, routeName, 
+            direction, batchMenu, salePrice, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_food 
+    </select>
+    
+    <!-- ===== 휴게소 대표음식 정보를 휴게소 이름으로 조회 ===== -->
+    <select id = "selectServiceareaFoodByServiceAreaName"
+            parameterType = "project.spring.travel.model.ServiceareaFood"
+            resultMap = "serviceareaFood">
+        <!-- "#{변수명}" 으로 표시된 곳에 멤버변수가 치환된다. -->
+        Select 
+            servicearea_foodId, serviceAreaCode, serviceAreaName, routeCode, routeName, 
+            direction, batchMenu, salePrice, 
+            Date_format(regDate, '%Y-%m-%d ') As `regDate`, 
+            Date_format(editDate, '%Y-%m-%d') As `editDate` 
+        From servicearea_food 
+        Where serviceAreaName Like Concat('%', #{serviceAreaName}, '%') 
+        Limit 0, 1
+    </select>
+    
+</mapper>

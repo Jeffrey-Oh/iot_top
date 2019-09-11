@@ -1,0 +1,16 @@
+.ajax-loader {
+	display: block;
+	width: 24px;
+	height: 24px;
+
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin-top: -12px;
+	margin-left: -12px;
+	z-index: 9999999;
+
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-image: url('loading.gif');
+}

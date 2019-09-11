@@ -1,0 +1,576 @@
+/*====== visual ======*/
+.border-bottom {
+    border-bottom: solid 2px #e4e6e8;
+    left: -15px;
+}
+
+#visual {
+	height: 800px !important;
+}
+
+#visual .bg {
+	height: 800px !important;
+    background-image: url(../../images/air/home_slider.jpg);
+}
+
+.move_1, .move_2, .move_3 {
+	position: absolute;
+    width: 140px;
+    height: 20px;
+    z-index: 490;
+    right: 5%;
+}
+
+.move_1 {
+    top: 280px;
+}
+
+.move_2 {
+    top: 310px;
+}
+
+.move_3 {
+    top: 340px;
+}
+
+.move-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 0.75;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+.move-text a:link, .move-text a:visited {
+	color: rgba(255,255,255,0.63);
+}
+
+.underline a {
+	display: inline-block;
+    color: rgba(255,255,255,0.63);
+    text-decoration: none;
+    font-weight: lighter;
+}
+
+.underline a:hover {
+	color: white;
+}
+
+.underline a::after {
+    display: block;
+	content: '';
+    border-bottom: 2px solid white;
+    margin-top: 7px;
+    background: white;
+    transform: scaleX(0);
+    transition: transform 300ms ease;
+    transform-origin: 100% 50%;
+}
+
+.underline a:hover::after {
+	transform: scaleX(1);
+}
+
+.section_subtitle {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #72728c;
+    line-height: 0.75;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+.section_title {
+    color: #181818;
+    margin-top: 26px;
+}
+
+/*********************************
+3. Home Search
+*********************************/
+
+#searchbar {
+	margin-top: 0;
+}
+
+.home_search
+{
+	width: 100%;
+	height: 0;
+	background: #FFFFFF;
+	z-index: 1;
+}
+.home_search_container
+{
+	position: absolute;
+	top: -353px;
+	width: calc(100% + 122px);
+	left: -61px;
+	padding-top: 47px;
+	padding-left: 61px;
+	padding-right: 61px;
+	padding-bottom: 59px;
+	background: rgba(255,255,255,0.26);
+	border-radius: 12px;
+}
+.home_search_title
+{
+	width: 247px;
+	height: 55px;
+	background: #FFFFFF;
+	margin-left: auto;
+	margin-right: auto;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	line-height: 55px;
+	font-family: 'Oswald', sans-serif;
+	font-size: 18px;
+	color: #2e2e2e;
+	font-weight: 400;
+	text-align: center;
+}
+.home_search_content
+{
+	width: 100%;
+	background: #FFFFFF;
+	padding-top: 18px;
+	padding-bottom: 18px;
+	padding-left: 67px;
+	padding-right: 83px;
+}
+.search_input
+{
+	height: 50px;
+	background: #f2f5f6;
+	border: none;
+	outline: none;
+	padding-left: 17px;
+	font-family: 'Oswald', sans-serif;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	color: #72728c !important;
+}
+.search_input_1 {margin-right: 1px; width: 25%;}
+.search_input_2 {width: 15%;}
+.search_input_3 {width: 15%;}
+.search_input_4 {width: 20%;}
+.search_input::-webkit-input-placeholder
+{
+	font-family: 'Oswald', sans-serif;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	color: #72728c !important;
+}
+.search_input:-moz-placeholder
+{
+	font-family: 'Oswald', sans-serif;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	color: #72728c !important;
+}
+.search_input::-moz-placeholder
+{
+	font-family: 'Oswald', sans-serif;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	color: #72728c !important;
+} 
+.search_input:-ms-input-placeholder
+{ 
+	font-family: 'Oswald', sans-serif;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	color: #72728c !important;
+}
+.search_input::input-placeholder
+{
+	font-family: 'Oswald', sans-serif;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	color: #72728c !important;
+}
+.home_search_button
+{
+	width: 161px;
+	height: 52px;
+	background: #181818;
+	color: #FFFFFF;
+	font-family: 'Oswald', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	text-transform: uppercase;
+	border-radius: 20px;
+	border: none;
+	outline: none;
+	cursor: pointer;
+}
+
+/*********************************
+8. Destinations
+*********************************/
+
+.destinations
+{
+	width: 100%;
+	background: #FFFFFF;
+	padding-top: 115px;
+}
+.section_subtitle
+{
+	font-family: 'Oswald', sans-serif;
+	font-size: 12px;
+	font-weight: 400;
+	color: #72728c;
+	line-height: 0.75;
+	text-transform: uppercase;
+	letter-spacing: 0.2em;
+}
+.section_title
+{
+	color: #181818;
+	margin-top: 26px;
+}
+.destinations_row
+{
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+.destination_image
+{
+	width: 100%;
+}
+.destination_image img
+{
+	max-width: 92%;
+}
+.spec_offer
+{
+	position: absolute;
+    top: 15px;
+    left: 30px;
+    width: 118px;
+    height: 36px;
+    background: #181818;
+}
+.spec_offer span
+{
+	display: block;
+	font-family: 'Oswald', sans-serif;
+	font-size: 16px;
+	color: #FFFFFF;
+	line-height: 36px;
+	font-weight: 400;
+}
+.destinations_container
+{
+	width: calc(100% + 30px);
+	left: -15px;
+}
+.destinations > .container {
+	width: 1200px;
+}
+.destination
+{
+	width: calc(100% / 3);
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-bottom: 33px;
+}
+.destination a
+{
+	font-family: 'Oswald', sans-serif;
+	font-size: 30px;
+	font-weight: 400;
+	color: #181818;
+}
+.destination_content
+{
+
+}
+.destination_title
+{
+	margin-top: 15px;
+}
+.destination_subtitle
+{
+	margin-top: -4px;
+	font-size: 12px;
+	font-family: "Noto Sans KR","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.destination_price
+{
+	font-family: "Noto Sans KR","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	color: #181818;
+	margin-top: 16px;
+}
+
+.destination_price.badge {
+	background-color: #05a;
+    color: white !important;
+    width: 200px !important;
+}
+
+/*********************************
+7. Intro
+*********************************/
+
+.intro_bg {
+	position: static !important;
+}
+
+.intro
+{
+	width: 100%;
+	background: #FFFFFF;
+	z-index: 1;
+}
+.intro_background
+{
+	position: absolute;
+	top: -90px;
+	left: 0;
+	width: 100%;
+	height: 480px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	background-image: url(../../images/air/intro.png);
+}
+.intro_container
+{
+	width: 100%;
+    padding: 142px 15px 121px 50px;
+}
+.intro_icon
+{
+	display: inline-block;
+	width: 70px;
+	height: 71px;
+}
+.intro_icon img
+{
+	max-width: 100%;
+}
+.intro_content
+{
+	display: inline-block;
+	padding-left: 28px;
+	position: relative;
+    top: 30px;
+}
+.intro_title
+{
+	font-weight: bold;
+	font-family: 'Oswald', sans-serif;
+	font-size: 18px;
+}
+
+/*********************************
+8. Air Live & Schedule
+*********************************/
+.LSimg {
+	background: url(../../images/air/testimonials.jpg) center center fixed no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    width: 100%;
+    height: 600px;
+    left: 0;
+}
+
+.tech-slideshow {
+    height: 223px;
+    width: 70%;
+    margin: 0 auto;
+    position: relative;
+    top: 30px;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
+.tech-slideshow > div {
+    height: 223px;
+    width: 3960px;
+    background: url(../../images/air/carousel_body.png);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translate3d(0, 0, 0);
+}
+
+.tech-slideshow .mover-1 {
+    animation: spin 30s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: translateX(-50.48%);
+    }
+}
+
+.margin_top600 {
+	margin-top: 600px;
+}
+
+.airLS-text {
+	padding: 80px 0 !important;
+}
+
+.airLS .row {
+	margin: 0;
+}
+
+.airLS-contents {
+    padding: 100px 0;
+}
+
+.air-table table {
+    margin: auto;
+}
+
+.air-more {
+    float: right;
+    margin: 50px 50px 0 0;
+    width: 200px;
+    margin-bottom: 50px;
+	padding: 0;
+    height: 40px;
+    border-radius: 10px;
+    line-height: 35px;
+}
+
+.air-more a {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
+
+.air-more a:link, .air-more a:visited {
+    color: white;
+}
+
+.air-table {
+    margin-top: 50px;
+}
+
+.air-table th {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    overflow: hidden;
+    word-break: normal;
+    color: #000;
+    text-align: center;
+    width: 190px;
+    padding: 25px;
+}
+
+.air-table td {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    border-bottom: 1px solid #CBCBCB;
+    overflow: hidden;
+    word-break: normal;
+    color: #000;
+    text-align: center;
+    height: auto;
+    padding: 15px;
+}
+
+.badge {
+	display: inline-block;
+    width: 100px;
+    height: 30px;
+    line-height: 21px;
+    border-radius: 10px;
+	font-size: 14px;
+}
+
+.badge_1 {background-color: #2D84F9;}
+.badge_2 {background-color: #92BFA4;}
+.badge_3 {background-color: #FA4A4A;}
+.badge_4 {background-color: #7CD8EE;}
+.badge_5 {background-color: #F5BE61;}
+.badge_6 {background-color: #5F6671;}
+.badge_7 {background-color: #902D2D;}
+
+.air-s tr td:nth-child(1) {width: 12%;}
+.air-s tr td:nth-child(2) {width: 14%;}
+.air-s tr td:nth-child(3) {width: 10%;}
+.air-s tr td:nth-child(4) {width: 10%;}
+
+.table-header {
+    padding: 10px !important;
+}
+
+.flight-day {
+    width: 10px !important;
+    padding: 10px 20px !important;
+}
+
+.w_color {
+    background-color: #4d5164;
+}
+
+.h_color {
+    background-color: #05a;
+}
+
+.w_check {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #4d5164 !important;
+    border-radius: 20px;
+}
+
+.h_check {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #05a !important;
+    border-radius: 20px;
+}
+
+/* ============================== */
+
+.my-youtube-wrapper {
+	width: 640px;
+	height: 480px;
+	margin: auto;
+}
+
+iframe {
+	border: 0;
+}
+
+.datepicker-container {
+	font-family: "Helvetica", "나눔고딕", "맑은고딕";
+	color: black;
+}
+
+.banner img {
+	position: absolute;
+    left: 50%;
+    bottom: 200px;
+    margin-left: 600px;
+    width: 250px;
+    height: 500px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.bg-text {
+	position: relative;
+    z-index: 490;
+    font-size: 100px;
+    text-align: center;
+    line-height: 600px;
+    font-family: 'Oswald', sans-serif;
+}
